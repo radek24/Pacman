@@ -10,10 +10,6 @@ workspace "Pacman"
 
     outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
-    filter { "system:windows", "action:gmake2" }
-        buildoptions { "-Wall" }  -- Add any GCC specific build options here
-        linkoptions { "-g" }      -- GCC linker options
-
 project "Pacman"
     location "Pacman"
     kind "ConsoleApp"
@@ -21,38 +17,46 @@ project "Pacman"
     systemversion "latest"
     characterset "Unicode"
     architecture "x86_64"
-    toolset "gcc"
 
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 
     files {
-        "%{prj.name}/src/**.h",
-        "%{prj.name}/src/**.c"
+        "%{prj.name}/Source/**.h",
+        "%{prj.name}/Source/**.c"
     } 
 
-    includedirs {
+    
+    includedirs { 
+        "Dependencies/SDL2/include", -- Include SDL headers
     }
 
     libdirs { 
+        "Dependencies/SDL2/lib",
+        "Dependencies/SDL2/bin"
     }
 
     links { 
+        "SDL2","SDL2main" -- Link against SDL2
     }
 
     filter "configurations:Debug"
         defines {"PAC_DEBUG", "DEBUG"}
         runtime "Debug"
         symbols "On"
-        buildoptions { "gcc -g" }
 
     filter "configurations:Development"
         defines {"PAC_DEVELOPMENT", "NDEBUG"}
         runtime "Release"
         optimize "Full"
-        buildoptions { "gcc -g" }
 
     filter "configurations:Shipping"
         defines {"PAC_SHIPING", "NDEBUG"}
         runtime "Release"
         optimize "Full"
-        buildoptions { "gcc" }
+
+
+    filter "system:windows"
+        postbuildcommands {
+
+            "{COPY} ../Dependencies/SDL2/bin/SDL2.dll %{cfg.buildtarget.directory}"
+        }
