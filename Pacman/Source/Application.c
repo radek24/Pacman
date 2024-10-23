@@ -3,6 +3,27 @@
 #include "Core/Assert.h"
 #include <stdio.h>
 
+#include <SDL_image.h>
+
+void renderImage(SDL_Renderer* renderer, const char* filePath) {
+    SDL_Texture* texture = IMG_LoadTexture(renderer, filePath);
+    if (texture == NULL) {
+        PAC_WARN("Failed to load texture! IMG_Error: %s\n", IMG_GetError());
+        return;
+    }
+
+    // Clear the screen
+    SDL_RenderClear(renderer);
+
+    // Copy the texture to the renderer
+    SDL_RenderCopy(renderer, texture, NULL, NULL);
+
+    // Present the backbuffer
+    SDL_RenderPresent(renderer);
+
+    // Cleanup
+    SDL_DestroyTexture(texture);
+}
 
 int main(int argc, char* argv[])
 {
@@ -40,15 +61,15 @@ int main(int argc, char* argv[])
             }
         }
 
-        line_x++;
+        // Initialize SDL_image
+        if (!(IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG)) {
+            printf("SDL_image could not initialize! IMG_Error: %s\n", IMG_GetError());
+            return 1;
+        }
 
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // Nastavení barvy na èernou
-        SDL_RenderClear(renderer);                      // Vykreslení pozadí
+        // Render the image
+        renderImage(renderer, "Resources/Sprites/TestImage.png"); // Change to your image path
 
-        SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255); // Nastavení barvy na èervenou
-        SDL_RenderDrawLine(renderer, line_x, 50, line_x, 250); // Vykreslení èáry
-
-        SDL_RenderPresent(renderer);  // Prezentace kreslítka
     }
 
     SDL_DestroyRenderer(renderer);

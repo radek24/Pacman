@@ -7,7 +7,7 @@
 This project utilizes **Premake** as the primary build system. If you're not familiar with Premake, don't worry. Simply use the provided `GenerateProjectFiles.bat` script that will guide you through the process of generating project files.
 
 ### Supported Platforms:  
-- **Visual Studio 2022**  
+- **Visual Studio 2022 (My prefered IDE)**  
 - **GNU Make (gmake)**
 
 ### How to Use:  

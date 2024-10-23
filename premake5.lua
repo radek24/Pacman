@@ -27,16 +27,19 @@ project "Pacman"
 
     
     includedirs { 
-        "Dependencies/SDL2/include", -- Include SDL headers
+        "Dependencies/SDL2/include",
+        "Dependencies/SDL2_Image/include",
+        "Dependencies/SDL2_ttf/include"
     }
 
     libdirs { 
         "Dependencies/SDL2/lib",
-        "Dependencies/SDL2/bin"
+        "Dependencies/SDL2_Image/lib/x64",
+        "Dependencies/SDL2_ttf/lib/x64"
     }
 
     links { 
-        "SDL2","SDL2main" -- Link against SDL2
+        "SDL2","SDL2main","SDL2_image","SDL2_ttf"
     }
 
     filter "configurations:Debug"
@@ -58,5 +61,7 @@ project "Pacman"
     filter "system:windows"
         postbuildcommands {
 
-            "{COPY} ../Dependencies/SDL2/bin/SDL2.dll %{cfg.buildtarget.directory}"
+            "{COPY} ../Dependencies/SDL2/bin/SDL2.dll %{cfg.buildtarget.directory}",
+            "{COPY} ../Dependencies/SDL2_image/lib/x64/SDL2_image.dll %{cfg.buildtarget.directory}",
+            "{COPY} ../Dependencies/SDL2_ttf/lib/x64/SDL2_ttf.dll %{cfg.buildtarget.directory}"
         }
