@@ -36,3 +36,6 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+*.vcxproj
+*.sln
+Makefile
