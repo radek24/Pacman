@@ -39,3 +39,5 @@ dkms.conf
 *.vcxproj
 *.sln
 Makefile
+.vs
+*.vcxproj.user
