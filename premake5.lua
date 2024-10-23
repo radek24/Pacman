@@ -22,7 +22,7 @@ project "Pacman"
 
     files {
         "%{prj.name}/src/**.h",
-        "%{prj.name}/src/**.cpp"
+        "%{prj.name}/src/**.c"
     } 
 
     includedirs {

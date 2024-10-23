@@ -41,3 +41,12 @@ dkms.conf
 Makefile
 .vs
 *.vcxproj.user
+
+bin/
+/packages/
+riderModule.iml
+/_ReSharper.Caches/
+/x64/
+/Pacman/obj/
+.vs/
+.idea/
