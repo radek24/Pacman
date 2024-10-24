@@ -1,9 +1,11 @@
 #include <SDL2/SDL.h>
-#include "Core/Log.h"
+#include <stdlib.h>
 #include "Core/Assert.h"
-#include <stdio.h>
-
+#include "Core/Log.h"
 #include <SDL_image.h>
+#include "SDL_Wrapper.h"
+#include "LevelManager.h"
+#include "Levels/TestLevel.h"
 
 void renderImage(SDL_Renderer* renderer, const char* filePath) {
     SDL_Texture* texture = IMG_LoadTexture(renderer, filePath);
@@ -11,6 +13,7 @@ void renderImage(SDL_Renderer* renderer, const char* filePath) {
         PAC_WARN("Failed to load texture! IMG_Error: %s\n", IMG_GetError());
         return;
     }
+
 
     // Clear the screen
     SDL_RenderClear(renderer);
@@ -25,56 +28,69 @@ void renderImage(SDL_Renderer* renderer, const char* filePath) {
     SDL_DestroyTexture(texture);
 }
 
+
 int main(int argc, char* argv[])
 {
-    if (SDL_Init(SDL_INIT_VIDEO)) {
-        PAC_FATAL("SDL_Init Error: %s\n", SDL_GetError());
-        return 1;
-    }
-    SDL_Window* window = SDL_CreateWindow("SDL experiments", 100, 100, 800, 600, SDL_WINDOW_SHOWN);
-    if (!window) {
-        PAC_FATAL("SDL_CreateWindow Error: %s\n", SDL_GetError());
-        SDL_Quit();
-        return 1;
-    }
 
-    SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-    if (!renderer) {
-        SDL_DestroyWindow(window);
-        PAC_FATAL("SDL_CreateRenderer Error: %s", SDL_GetError());
-        SDL_Quit();
-        return 1;
-    }
+    GraphicsState graphicsState = {
+    .windowTransform = { {SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED}, {800, 600} },
+    .window = NULL,
+    .renderer = NULL
+    };
 
-    int line_x = 100;
+    SDLWrapper_Init("My SDL game", &graphicsState);
 
+    /*
+    LevelManager manager = { .currentLevel = NULL,.data = NULL };
+    
+    */
+    /*
+    void* x = malloc(sizeof(int));
+    x = 5;
+    PAC_LOG("%d", x);
+    free(x);
+
+    
+    
+    void* x = malloc(sizeof(int));
+    *(int*)x = 5;    // Cast to int* before dereferencing
+    PAC_LOG("%d", *(int*)x);
+    free(x);
+    */
+    
+    Level testLevel = { TestLevel_Init,TestLevel_Update,TestLevel_Render,TestLevel_Destroy };
+    LevelManager manager = { .currentLevel= NULL,.data=NULL };
     SDL_Event event;
-    int running = 1;
+    
+    LevelManager_SetNewLevel(&manager,testLevel);
 
-    while (running == 1)
+    GameState state = Playing;
+    while (state == Playing)
     {
+        LevelManager_Update(&manager, 0.2f);
+        LevelManager_Render(&manager, 0.2f);
+        
         while (SDL_PollEvent(&event))
         {
             if (event.type == SDL_QUIT)
             {
-                running = 0;
+                LevelManager_Destroy(&manager);
+                state = End;
             }
         }
 
         // Initialize SDL_image
         if (!(IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG)) {
-            printf("SDL_image could not initialize! IMG_Error: %s\n", IMG_GetError());
+            PAC_FATAL("SDL_image could not initialize! IMG_Error: %s\n", IMG_GetError());
             return 1;
         }
 
         // Render the image
-        renderImage(renderer, "Resources/Sprites/TestImage.png"); // Change to your image path
+        renderImage(graphicsState.renderer, "Resources/Sprites/TestImage.png"); // Change to your image path
 
     }
-
-    SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(window);
-    SDL_Quit();
-
-    return 0;
+   
+    SDLWrapper_Destroy(&graphicsState);
+   
+   return 0;
 }

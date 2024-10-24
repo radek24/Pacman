@@ -18,6 +18,7 @@ project "Pacman"
     characterset "Unicode"
     architecture "x86_64"
 
+
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 
     files {
@@ -35,12 +36,14 @@ project "Pacman"
     libdirs { 
         "Dependencies/SDL2/lib",
         "Dependencies/SDL2_Image/lib/x64",
-        "Dependencies/SDL2_ttf/lib/x64"
+        "Dependencies/SDL2_ttf/lib/x64",
     }
 
     links { 
         "SDL2","SDL2main","SDL2_image","SDL2_ttf"
     }
+
+
 
     filter "configurations:Debug"
         defines {"PAC_DEBUG", "DEBUG"}
@@ -51,16 +54,16 @@ project "Pacman"
         defines {"PAC_DEVELOPMENT", "NDEBUG"}
         runtime "Release"
         optimize "Full"
+ 
 
     filter "configurations:Shipping"
         defines {"PAC_SHIPING", "NDEBUG"}
         runtime "Release"
         optimize "Full"
-
+        
 
     filter "system:windows"
         postbuildcommands {
-
             "{COPY} ../Dependencies/SDL2/bin/SDL2.dll %{cfg.buildtarget.directory}",
             "{COPY} ../Dependencies/SDL2_image/lib/x64/SDL2_image.dll %{cfg.buildtarget.directory}",
             "{COPY} ../Dependencies/SDL2_ttf/lib/x64/SDL2_ttf.dll %{cfg.buildtarget.directory}"
