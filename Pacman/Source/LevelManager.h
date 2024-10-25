@@ -22,7 +22,6 @@ struct LevelManager {
     int isInputActive;
 };
 
-
 void LevelManager_SetNewLevel(LevelManager* manager, Level NewLevel);
 void LevelManager_Update(LevelManager* manager, float deltaTime);
 void LevelManager_Render(LevelManager* manager, float deltaTime);

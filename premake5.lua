@@ -21,11 +21,13 @@ project "Pacman"
 
     files {
         "%{prj.name}/Source/**.h",
-        "%{prj.name}/Source/**.c"
+        "%{prj.name}/Source/**.c",
+        "%{prj.name}/Vendor/log/**.h",
+        "%{prj.name}/Vendor/log/**.c"
     } 
-
     
     includedirs { 
+        "%{prj.name}/Vendor",
         "Dependencies/SDL2/include",
         "Dependencies/SDL2_Image/include",
         "Dependencies/SDL2_ttf/include"

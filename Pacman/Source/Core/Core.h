@@ -4,7 +4,6 @@
 #include "Assert.h"
 #include "Math.h"
 
-
 #define TILE_SIZE 16
 #define MAZE_DIMENSIONS_X 28
 #define MAZE_DIMENSIONS_Y 31

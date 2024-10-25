@@ -5,18 +5,14 @@
 
 int isMazeTileFilled(int x, int y, Maze* maze) {
 	PAC_ASSERT(maze && maze->Tiles);
-	if (x >= MAZE_DIMENSIONS_X || x < 0 || y >= MAZE_DIMENSIONS_Y || y < 0)
-	{
-		return 1;
-	}
-
+	if (x >= MAZE_DIMENSIONS_X || x < 0 || y >= MAZE_DIMENSIONS_Y || y < 0) return 1;
+	
 	if (maze->Tiles[y][x] == space) return 0;
 
 	return 1;
 }
 
 TileType CalculateMazeTile(int x, int y, Maze* maze) {
-
 	if (!isMazeTileFilled(x, y, maze)) { return space; }
 
 	int top = isMazeTileFilled(x, y - 1, maze);
@@ -24,13 +20,10 @@ TileType CalculateMazeTile(int x, int y, Maze* maze) {
 	int left = isMazeTileFilled(x-1, y, maze);
 	int right = isMazeTileFilled(x + 1, y, maze);
 
-
 	int topLeft = isMazeTileFilled(x-1, y - 1, maze);
 	int topRight = isMazeTileFilled(x+1, y - 1, maze);
 	int downLeft = isMazeTileFilled(x - 1, y+1, maze);
 	int downRight = isMazeTileFilled(x + 1, y+1, maze);
-	
-	//PAC_LOG("%d %d %d\n      %d # %d\n      %d %d %d\n\n", topLeft, top, topRight, left,right,downLeft,down,downRight);
 
 	if (top && left && right && down && topLeft && topRight && downLeft && downRight) { return solidmass; }
 	
@@ -52,7 +45,6 @@ TileType CalculateMazeTile(int x, int y, Maze* maze) {
 	return lineTop;
 }
 
-
 void InitMaze(const char* filePath, Maze* maze, SDL_Renderer* renderer)
 {
 	FILE* mazefile;
@@ -60,7 +52,7 @@ void InitMaze(const char* filePath, Maze* maze, SDL_Renderer* renderer)
 	PAC_ASSERT(mazefile);
 	
 	maze->SpriteSheet = IMG_LoadTexture(renderer, "Resources/Sprites/LevelTileSet.png");
-	maze->oneTileSize = 8;
+	maze->oneTileSize = 16;
 	if (maze->SpriteSheet == NULL) {
 		PAC_WARN("Failed to load texture! IMG_Error: %s\n", IMG_GetError());
 		return;
@@ -74,25 +66,19 @@ void InitMaze(const char* filePath, Maze* maze, SDL_Renderer* renderer)
 
 		switch (ch)
 		{
-		case '#':
-		{
-			maze->Tiles[currentY][currentX] = outerCornerRightUp;
-		}
+		case '#':	maze->Tiles[currentY][currentX] = outerCornerRightUp;
 		break;
-		case '.':
-		{
-			maze->Tiles[currentY][currentX] = space;
-		}
+		case '.':	maze->Tiles[currentY][currentX] = space;
 		break;
-		case '\n':
-		{ continue; }
+		case 'O':	maze->Tiles[currentY][currentX] = space;
 		break;
-
-		default:
-			PAC_CHECKNOENTRY();
-			break;
+		case '*':	maze->Tiles[currentY][currentX] = space;
+		break;
+		case '\n':	continue;
+		break;
+		default:	PAC_CHECKNOENTRY();
+		break;
 		}
-		
 		currentIndex++;
 	}
 	fclose(mazefile);
@@ -104,8 +90,7 @@ void InitMaze(const char* filePath, Maze* maze, SDL_Renderer* renderer)
 			maze->Tiles[y][x] = CalculateMazeTile(x,y,maze);
 		}
 	}
-
-
+	PAC_LOG("Maze loaded from %s", filePath);
 }
 
 void RenderMaze(SDL_Renderer* renderer,Maze* maze)
@@ -116,7 +101,6 @@ void RenderMaze(SDL_Renderer* renderer,Maze* maze)
 	{
 		for (int x = 0; x < MAZE_DIMENSIONS_X; x++)
 		{
-			
 			Tile.x = maze->oneTileSize * (int)maze->Tiles[y][x];
 			if (maze->Tiles[y][x] == space) Tile.x = maze->oneTileSize * 12;
 			Position.x = TILE_SIZE * x + TILE_SIZE;

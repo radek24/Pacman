@@ -13,6 +13,5 @@ typedef enum {
 	Playing,Stopped,End
 }GameState;
 
-
 void SDLWrapper_Init(const char* windowName, GraphicsState* state);
 void SDLWrapper_Destroy(GraphicsState* state);

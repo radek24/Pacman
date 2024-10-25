@@ -1,9 +1,7 @@
 #pragma once
-
 #include "../Core/Math.h"
 #include "../Core/Core.h"
 #include "../SDL_Wrapper.h"
-
 
 typedef enum
 {
@@ -31,7 +29,6 @@ typedef struct
 	SDL_Texture* SpriteSheet;
 	int oneTileSize;
 }Maze;
-
 
 void InitMaze(const char* filePath,Maze* maze, SDL_Renderer* renderer);
 void RenderMaze(SDL_Renderer* renderer, Maze* maze);

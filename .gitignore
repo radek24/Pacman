@@ -50,3 +50,4 @@ riderModule.iml
 /Pacman/obj/
 .vs/
 .idea/
+Pacman/Pacman.vcxproj.filters
