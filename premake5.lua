@@ -14,8 +14,6 @@ project "Pacman"
     location "Pacman"
     kind "ConsoleApp"
     language "C"
-    systemversion "latest"
-    characterset "Unicode"
     architecture "x86_64"
 
 
@@ -53,13 +51,13 @@ project "Pacman"
     filter "configurations:Development"
         defines {"PAC_DEVELOPMENT", "NDEBUG"}
         runtime "Release"
-        optimize "Full"
+        optimize "On"
  
 
     filter "configurations:Shipping"
         defines {"PAC_SHIPING", "NDEBUG"}
         runtime "Release"
-        optimize "Full"
+        optimize "On"
         
 
     filter "system:windows"

@@ -1,6 +1,7 @@
 #pragma once
 #include <SDL2/SDL.h>
-#include "Core/Math.h"
+#include "Core/Core.h"
+#include <SDL_image.h>
 
 typedef struct {
 	Rect2Di windowTransform;

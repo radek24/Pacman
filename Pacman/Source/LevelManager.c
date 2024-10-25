@@ -2,13 +2,16 @@
 
 void LevelManager_SetNewLevel(LevelManager* manager, Level NewLevel)
 {
+	PAC_LOG("LevelManager: Initializing new level...");
 	if (manager->currentLevel.destroy != NULL)
 	{
+		PAC_LOG("LevelManager: Previous level destroyed");
 		manager->currentLevel.destroy(manager);
 	}
 	
 	manager->currentLevel = NewLevel;
 	manager->currentLevel.Initialize(manager);
+	PAC_LOG("LevelManager: New level initialized sucesfully");
 }
 
 
@@ -24,5 +27,7 @@ void LevelManager_Render(LevelManager* manager, float deltaTime)
 
 void LevelManager_Destroy(LevelManager* manager)
 {
+	PAC_LOG("LevelManager: Destroying current level...");
 	manager->currentLevel.destroy(manager);
+	PAC_LOG("LevelManager: New level destroyed sucesfully");
 }

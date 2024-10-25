@@ -20,3 +20,5 @@ typedef struct {
 	Vec2i position;
 	Vec2i size;
 }Rect2Di;
+
+typedef enum{Right,Left,Up,Down}Orientation;

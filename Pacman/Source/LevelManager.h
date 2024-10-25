@@ -1,6 +1,6 @@
 #pragma once
 #include "Core/Core.h"
-
+#include <SDL2/SDL.h>
 
 typedef struct LevelManager LevelManager; 
 
@@ -17,6 +17,9 @@ typedef struct {
 struct LevelManager {  
     Level currentLevel;
     void* data;
+    SDL_Renderer* renderer;
+    SDL_Event inputEvent;
+    int isInputActive;
 };
 
 

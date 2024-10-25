@@ -29,6 +29,8 @@
       <Filter>Levels</Filter>
     </ClInclude>
     <ClInclude Include="Source\SDL_Wrapper.h" />
+    <ClInclude Include="Source\GameObjects\GameObjects.h" />
+    <ClInclude Include="Source\GameObjects\Maze.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Application.c" />
@@ -37,5 +39,10 @@
       <Filter>Levels</Filter>
     </ClCompile>
     <ClCompile Include="Source\SDL_Wrapper.c" />
+    <ClCompile Include="Source\GameObjects\GameObjects.c" />
+    <ClCompile Include="Source\GameObjects\Maze.c" />
+    <ClCompile Include="Source\GameObjects\Player.h" />
+    <ClCompile Include="Source\GameObjects\Player.c" />
+    <ClCompile Include="Source\Core\Core.c" />
   </ItemGroup>
 </Project>
