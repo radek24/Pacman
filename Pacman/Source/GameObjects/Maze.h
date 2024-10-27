@@ -1,7 +1,9 @@
 #pragma once
-#include "../Core/Math.h"
-#include "../Core/Core.h"
-#include "../SDL_Wrapper.h"
+#include "Core/Math.h"
+#include "Core/Core.h"
+#include "Pickupable.h"
+
+#include "SDL_Wrapper.h"
 
 typedef enum
 {
@@ -30,7 +32,7 @@ typedef struct
 	int oneTileSize;
 }Maze;
 
-void InitMaze(const char* filePath,Maze* maze, SDL_Renderer* renderer);
+void InitMaze(const char* filePath,Maze* maze,Pickups* pickups ,SDL_Renderer* renderer);
 void RenderMaze(SDL_Renderer* renderer, Maze* maze);
 void DestroyMaze(Maze* maze);
 int isMazeTileFilled(int x, int y, Maze* maze);

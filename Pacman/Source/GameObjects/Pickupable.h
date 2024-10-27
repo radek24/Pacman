@@ -1,20 +1,27 @@
 #pragma once
-#include "../Core/Core.h"
-#include "../SDL_Wrapper.h"
+#include "Core/Core.h"
+#include "SDL_Wrapper.h"
 
-typedef enum {Score,Big,Cherry}PickupType;
-typedef enum {normal,picked}PickupState;
+typedef enum {Big, Score,Cherry}PickupType;
 
 typedef struct
 {
 	PickupType type;
-	PickupState state;
 	Vec2i positionInGrid;
-	int size;
+	
 }Pickupable;
 
+typedef struct {
+	SDL_Texture* SpriteSheet;
+	int spriteSize;
+	Pickupable* pickups;
+	int size;
+	int capacity;
+}Pickups;
 
-void InitPickup(Pickupable* pickup, SDL_Renderer* renderer, Vec2i* Pos);
-void UpdatePickup(Pickupable* pickup, float deltaTime);
-void RenderPickup(Pickupable* pickup, float currentTime, SDL_Renderer* renderer);
-void DestroyPickup(Pickupable* pickup);
+
+void InitPickups(Pickups* pickups, SDL_Renderer* renderer);
+void AddPickup(Pickups* pickups, Vec2i* pos, PickupType type);
+void UpdatePickups(Pickups* pickups, float deltaTime);
+void RenderPickups(Pickups* pickups, float currentTime, SDL_Renderer* renderer);
+void DestroyPickups(Pickups* pickups);

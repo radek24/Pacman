@@ -1,10 +1,9 @@
 
 #include "SDL_Wrapper.h"
-#include <SDL_image.h>
 #include "Core/Core.h"
 #include "LevelManager.h"
-#include "Levels/TestLevel.h"
-#include "GameObjects/GameObjects.h"
+#include "Levels/GameLevel.h"
+#include "Levels/MainMenuLevel.h"
 
 
 int main(int argc, char* argv[])
@@ -16,21 +15,23 @@ int main(int argc, char* argv[])
     };
     SDLWrapper_Init("Pacman", &graphicsState);
     
-    Level testLevel = { TestLevel_Init,TestLevel_Update,TestLevel_Render,TestLevel_Destroy };
-    LevelManager manager = { .currentLevel= NULL,.data=NULL,.renderer=graphicsState.renderer ,.inputEvent=NULL,.isInputActive =0};
-    
-    LevelManager_SetNewLevel(&manager,testLevel);
+    Level mainMenu = { MainMenuLevel_Init,MainMenuLevel_Update,MainMenuLevel_Render,MainMenuLevel_Destroy };
 
-    GameState state = Playing;
+    LevelManager manager = { .currentLevel= NULL,.data=NULL,.renderer=graphicsState.renderer ,.inputEvent=NULL,.isInputActive =0};
+    InitLevelManager(&manager, "Resources/Fonts/PacFont.ttf", 16);
+
+    LevelManager_SetNewLevel(&manager, mainMenu);
+
     Uint32 lastTick = SDL_GetTicks();
     float deltaTime = 0.0f;
-    while (state == Playing)
+
+    while (manager.state == Playing)
     {
         Uint32 currentTick = SDL_GetTicks();
         deltaTime = (currentTick - lastTick) / 1000.0f;
 
         manager.isInputActive = SDL_PollEvent(&(manager.inputEvent));
-        if (manager.isInputActive && manager.inputEvent.type == SDL_QUIT)state = End;
+        if (manager.isInputActive && manager.inputEvent.type == SDL_QUIT)manager.state = End;
 
         LevelManager_Update(&manager, deltaTime);
         LevelManager_Render(&manager, deltaTime);
@@ -38,6 +39,7 @@ int main(int argc, char* argv[])
         lastTick = currentTick;
     }
     LevelManager_Destroy(&manager);
+    LevelManager_Cleanup(&manager);
     SDLWrapper_Destroy(&graphicsState);
    
     return 0;

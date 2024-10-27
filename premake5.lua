@@ -30,7 +30,8 @@ project "Pacman"
         "%{prj.name}/Vendor",
         "Dependencies/SDL2/include",
         "Dependencies/SDL2_Image/include",
-        "Dependencies/SDL2_ttf/include"
+        "Dependencies/SDL2_ttf/include",
+        "%{prj.location}/Source"
     }
 
     libdirs { 

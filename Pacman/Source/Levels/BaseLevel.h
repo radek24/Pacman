@@ -1,4 +1,4 @@
 #pragma once
-#include "../Core/Core.h"
+#include "Core/Core.h"
 #include <stdlib.h>
-#include "../LevelManager.h"
+#include "LevelManager.h"

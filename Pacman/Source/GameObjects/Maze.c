@@ -1,7 +1,7 @@
 #include "Maze.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include "../Core/Core.h"
+#include "Core/Core.h"
 
 int isMazeTileFilled(int x, int y, Maze* maze) {
 	PAC_ASSERT(maze && maze->Tiles);
@@ -45,7 +45,7 @@ TileType CalculateMazeTile(int x, int y, Maze* maze) {
 	return lineTop;
 }
 
-void InitMaze(const char* filePath, Maze* maze, SDL_Renderer* renderer)
+void InitMaze(const char* filePath, Maze* maze, Pickups* pickups,SDL_Renderer* renderer)
 {
 	FILE* mazefile;
 	mazefile = fopen(filePath, "r");
@@ -54,8 +54,8 @@ void InitMaze(const char* filePath, Maze* maze, SDL_Renderer* renderer)
 	maze->SpriteSheet = IMG_LoadTexture(renderer, "Resources/Sprites/LevelTileSet.png");
 	maze->oneTileSize = 16;
 	if (maze->SpriteSheet == NULL) {
-		PAC_WARN("Failed to load texture! IMG_Error: %s\n", IMG_GetError());
-		return;
+		PAC_FATAL("Failed to load texture! IMG_Error: %s\n", IMG_GetError());
+		PAC_ASSERT(0);
 	}
 
 	char ch;
@@ -68,9 +68,19 @@ void InitMaze(const char* filePath, Maze* maze, SDL_Renderer* renderer)
 		{
 		case '#':	maze->Tiles[currentY][currentX] = outerCornerRightUp;
 		break;
-		case '.':	maze->Tiles[currentY][currentX] = space;
+		case '.': { 
+			maze->Tiles[currentY][currentX] = space; 
+			Vec2i pos = { currentX ,currentY };
+			AddPickup(pickups,&pos,Score);
+
+		}
 		break;
-		case 'O':	maze->Tiles[currentY][currentX] = space;
+		case 'O': {
+			maze->Tiles[currentY][currentX] = space;
+			Vec2i pos = { currentX ,currentY };
+			AddPickup(pickups, &pos, Big);
+
+		}
 		break;
 		case '*':	maze->Tiles[currentY][currentX] = space;
 		break;

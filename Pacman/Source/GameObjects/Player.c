@@ -1,10 +1,10 @@
 #include "Player.h"
-#include "../Core/Core.h"
+#include "Core/Core.h"
 
 
-void InitPlayer(Player* player, SDL_Renderer* renderer, Vec2i* StartingPos)
+void InitPlayer(Player* player, SDL_Renderer* renderer, Vec2i* StartingPos, tileChangeCallback callback)
 {
-	
+	if (callback != NULL) { player->callback = callback; }
 	player->currentTile = (*StartingPos);
 	player->scale = 15;
 	player->currentTile = *StartingPos;
@@ -13,9 +13,13 @@ void InitPlayer(Player* player, SDL_Renderer* renderer, Vec2i* StartingPos)
 	player->position.y = (float)StartingPos->y*TILE_SIZE+9;
 	player->desiredOrientation = Left;
 	player->orientation = Left;
-	player->speed = 60.0f;
+	player->speed = 80.0f;
 	player->currentSpeed = player->speed;
 	player->SpriteSheet = IMG_LoadTexture(renderer, "Resources/Sprites/Pacman.png");
+	if (player->SpriteSheet == NULL) {
+		PAC_FATAL("Failed to load texture! IMG_Error: %s\n", IMG_GetError());
+		PAC_ASSERT(0);
+	}
 	player->state = Alive;
 
 }
@@ -26,16 +30,13 @@ void UpdatePlayer(Player* player, LevelManager* manager, float deltaTime, Maze* 
 		if (event.key.keysym.sym == SDLK_DOWN) player->desiredOrientation = Down;
 		if (event.key.keysym.sym == SDLK_LEFT) player->desiredOrientation = Left;
 		if (event.key.keysym.sym == SDLK_RIGHT) player->desiredOrientation = Right;
-		
-		PAC_LOG("Changed desired orientation to %d", player->desiredOrientation);
 	}
 	PlayerImidiateInput(player, maze);
 	
 	// Colisin checking algorithm 
 	// We only check collision if player enters new tile.
-
 	if (IsPlayerPerfectlyOnTile(player)) {
-		UpdateCurrentTile(player);
+		UpdateCurrentTile(player,manager);
 		CheckPlayerCollision(player, maze);
 		DelayedUpdatePlayerInput(player, maze);
 	}
@@ -87,13 +88,14 @@ int IsPlayerPerfectlyOnTile(Player* player)
 }
 
 /*Sets current tile and last visited tile based on player location*/
-void UpdateCurrentTile(Player* player)
+void UpdateCurrentTile(Player* player,LevelManager* manager)
 {
 	if (player->currentTile.x != ((int)(player->position.x + (player->scale)) / (TILE_SIZE)) - 1 || player->currentTile.y != ((int)(player->position.y + (player->scale)) / (TILE_SIZE)) - 1) {
 		player->lastTile = player->currentTile;
-
 		player->currentTile.x = ((int)(player->position.x + (player->scale)) / (TILE_SIZE)) - 1;
 		player->currentTile.y = ((int)(player->position.y + (player->scale)) / (TILE_SIZE)) - 1;
+
+		player->callback(manager, &player->currentTile);
 	}
 }
 
@@ -170,7 +172,7 @@ void UpdatePlayerLocation(Player* player, float deltaTime)
 
 void RenderPlayer(Player* player, float currentTime, SDL_Renderer* renderer)
 {
-	SDL_Rect position = { player->position.x,player->position.y,player->scale*2,player->scale*2 };
+	SDL_Rect position = { (int)player->position.x,(int)player->position.y,player->scale*2,player->scale*2 };
 	SDL_Rect tile = { player->scale* getSpriteIndexFromTime(currentTime,2) ,player->orientation * player->scale ,player->scale,player->scale};
 	SDL_RenderCopy(renderer, player->SpriteSheet, &tile, &position);
 
