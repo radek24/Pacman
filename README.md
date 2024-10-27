@@ -57,6 +57,9 @@ While the project aims to be cross-platform, Windows is the primary development 
 ## Dependencies
 
 ### External Libraries
+- [SDL2](https://github.com/libsdl-org/SDL) - Graphics library
+  - Used for rendering the game and loading fonts or images
+
 - [rxi/log](https://github.com/rxi/log.c) - A feature-rich logging library for C
   - Used for enhanced logging capabilities
   - Included as a submodule in the project
