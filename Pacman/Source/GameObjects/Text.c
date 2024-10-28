@@ -22,6 +22,16 @@ void UpdateText(Text* text, char* textToRender, LevelManager* manager)
 	SDL_QueryTexture(text->_currentTexture, NULL, NULL, &(text->_textDimensions.x), &(text->_textDimensions.y));
 }
 
+void UpdateTextColor(Text* text, SDL_Color color, LevelManager* manager)
+{
+	text->color = color;
+	SDL_Surface* surface = TTF_RenderText_Solid(manager->font, text->text, text->color);
+	SDL_DestroyTexture(text->_currentTexture);
+	text->_currentTexture = SDL_CreateTextureFromSurface(manager->renderer, surface);
+	SDL_FreeSurface(surface);
+	SDL_QueryTexture(text->_currentTexture, NULL, NULL, &(text->_textDimensions.x), &(text->_textDimensions.y));
+}
+
 void RenderText(Text* text, SDL_Renderer* renderer)
 {
 	SDL_Rect dstrect = { text->location.x, text->location.y, text->_textDimensions.x, text->_textDimensions.y };

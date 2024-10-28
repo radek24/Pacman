@@ -29,6 +29,7 @@ struct LevelManager {
     GameState state;
     Vec2i watermarkLoc;
     SDL_Texture* watermark;
+    float gameTime;
 };
 
 void InitLevelManager(LevelManager* manager, const char* fontPath, int size);

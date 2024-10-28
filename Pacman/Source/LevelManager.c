@@ -11,6 +11,7 @@ void InitLevelManager(LevelManager* manager, const char* fontPath, int size)
 	manager->state = Playing;
 	manager->watermarkLoc = (Vec2i){5,WINDOW_SIZE_Y-20 };
 	manager->watermark = IMG_LoadTexture(manager->renderer, "Resources/Sprites/Watermark.png");
+	manager->gameTime = 0.0f;
 }
 
 void LevelManager_SetNewLevel(LevelManager* manager, Level NewLevel)
@@ -29,6 +30,7 @@ void LevelManager_SetNewLevel(LevelManager* manager, Level NewLevel)
 
 void LevelManager_Update(LevelManager* manager,float deltaTime)
 {
+	manager->gameTime += deltaTime;
 	manager->currentLevel.Update(deltaTime, manager);
 }
 

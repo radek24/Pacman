@@ -15,8 +15,9 @@ typedef struct {
 	SDL_Texture* _currentTexture;
 }Text;
 
-/*Text lenght should be less than 128*/
+/*Text lenght should be less than 256 characters*/
 void InitText(Text* text, SDL_Color color, char* textToRender, Vec2i location, LevelManager* manager);
 void UpdateText(Text* text, char* textToRender, LevelManager* manager);
+void UpdateTextColor(Text* text, SDL_Color color, LevelManager* manager);
 void RenderText(Text* text, SDL_Renderer* renderer);
 void DestroyText(Text* text);

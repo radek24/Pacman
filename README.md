@@ -2,13 +2,6 @@
 
 A modern implementation of the classic Pacman game, developed as part of the Introduction to Programming (UPR) course at VŠB-TUO (Technical University of Ostrava).
 
-
-## Prerequisites
-
-- Windows OS (primary development platform)
-- Visual Studio 2022 or GNU Make
-- Premake5 (included in the repository)
-
 ## Getting Started
 
 ### Quick Start
@@ -26,10 +19,10 @@ A modern implementation of the classic Pacman game, developed as part of the Int
 
 ### Manual Setup
 
-For platforms other than Windows or if you prefer manual configuration:
+For unsoported project files or if you prefer manual configuration:
 
 1. Navigate to the project directory
-2. Run the appropriate Premake command for your platform
+2. Run the appropriate Premake command for your project files
    ```bash
    premake5 [action]
    ```
@@ -52,7 +45,7 @@ The project supports three build configurations:
 - **GNU Make** (gmake)
 
 ### Platform Support
-While the project aims to be cross-platform, Windows is the primary development and testing platform. Other platforms may require additional configuration or modifications.
+While the project aims to be cross-platform, Windows is the primary development and testing platform. Other platforms may not have feature parity.
 
 ## Dependencies
 
@@ -61,8 +54,7 @@ While the project aims to be cross-platform, Windows is the primary development 
   - Used for rendering the game and loading fonts or images
 
 - [rxi/log](https://github.com/rxi/log.c) - A feature-rich logging library for C
-  - Used for enhanced logging capabilities
-  - Included as a submodule in the project
+  - Used for prettier logs that can also be outputed to a file
 
 ---
 Feel free to expore the code and build!

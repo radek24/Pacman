@@ -14,4 +14,13 @@
 #define NULL ((void *)0)
 #endif
 
+#define LEADERBOARD_FILENAME "leaderboards.ini"
+#define LEADERBORDS_SECTION "Leaderboards"
+
+#define CONSTRUCT_LEVEL(LevelName) { LevelName##_Init, LevelName##_Update, LevelName##_Render, LevelName##_Destroy }
+
+#define MENU_HEADER_LOCATION ((Vec2i){ TILE_SIZE*2, TILE_SIZE*2})
+
 int getSpriteIndexFromTime(float time, int sprites);
+
+

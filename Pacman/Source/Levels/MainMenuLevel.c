@@ -1,11 +1,15 @@
 #include "MainMenuLevel.h"
 #include "GameObjects/Button.h"
 #include "Levels/GameLevel.h"
+#include "Levels/LeaderboardLevel.h"
+#include "Levels/CreditsLevel.h"
+#include "Levels/ControlsLevel.h"
+#include "Levels/SettingsLevel.h"
 
 #define NUM_BUTTONS 6
 
 typedef struct {
-	float gameTime;
+
 	Button mainMenuButtons[NUM_BUTTONS];
 	//Just so I dont have to write sizeof everywhere, array is stack alocated anyway, so the size wont change
 	int numberOfButtons;
@@ -13,20 +17,24 @@ typedef struct {
 }MainMenuData;
 
 void StartPressed(LevelManager* manager) {
-	Level gameLevel = { GameLevel_Init,GameLevel_Update,GameLevel_Render,GameLevel_Destroy };
+	Level gameLevel = CONSTRUCT_LEVEL(GameLevel);
 	LevelManager_SetNewLevel(manager, gameLevel);
 }
 void LeaderboardsPressed(LevelManager* manager) {
-
+	Level leaderboardsLevel = CONSTRUCT_LEVEL(LeaderboardLevel);
+	LevelManager_SetNewLevel(manager, leaderboardsLevel);
 }
 void SettingsPressed(LevelManager* manager) {
-
+	Level settingsLevel = CONSTRUCT_LEVEL(SettingsLevel);
+	LevelManager_SetNewLevel(manager, settingsLevel);
 }
 void ControlsPressed(LevelManager* manager) {
-
+	Level controlsLevel = CONSTRUCT_LEVEL(ControlsLevel);
+	LevelManager_SetNewLevel(manager, controlsLevel);
 }
 void CreditsPressed(LevelManager* manager) {
-
+	Level creditsLevel = CONSTRUCT_LEVEL(CreditsLevel);
+	LevelManager_SetNewLevel(manager, creditsLevel);
 }
 void QuitPressed(LevelManager* manager) {
 	manager->state = End;
@@ -44,7 +52,6 @@ void MainMenuLevel_Init(LevelManager* manager)
 	AppendButton(&(leveldata->mainMenuButtons[3]), &(leveldata->mainMenuButtons[2]), "  Controls", manager,ControlsPressed);
 	AppendButton(&(leveldata->mainMenuButtons[4]), &(leveldata->mainMenuButtons[3]), "  Credits", manager,CreditsPressed);
 	AppendButton(&(leveldata->mainMenuButtons[5]), &(leveldata->mainMenuButtons[4]), "  Quit", manager, QuitPressed);
-
 	// Link up unlinked buttons
 	leveldata->mainMenuButtons[0].nextButton = &(leveldata->mainMenuButtons[1]);
 	leveldata->mainMenuButtons[0].previousButton = &(leveldata->mainMenuButtons[5]);
@@ -59,7 +66,7 @@ void MainMenuLevel_Update(float deltaTime, LevelManager* manager)
 	PAC_ASSERT(manager && manager->data);
 	MainMenuData* leveldata = ((MainMenuData*)manager->data);
 	
-	leveldata->gameTime += deltaTime;
+	
 	int tmp;
 	for (short i = 0; i < NUM_BUTTONS; i++)
 	{

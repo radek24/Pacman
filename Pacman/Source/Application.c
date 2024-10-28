@@ -15,16 +15,14 @@ int main(int argc, char* argv[])
     };
     SDLWrapper_Init("Pacman", &graphicsState);
     
-    Level mainMenu = { MainMenuLevel_Init,MainMenuLevel_Update,MainMenuLevel_Render,MainMenuLevel_Destroy };
-
     LevelManager manager = { .currentLevel= NULL,.data=NULL,.renderer=graphicsState.renderer ,.inputEvent=NULL,.isInputActive =0};
     InitLevelManager(&manager, "Resources/Fonts/PacFont.ttf", 16);
-
+    
+    Level mainMenu = CONSTRUCT_LEVEL(MainMenuLevel);
     LevelManager_SetNewLevel(&manager, mainMenu);
 
     Uint32 lastTick = SDL_GetTicks();
     float deltaTime = 0.0f;
-
     while (manager.state == Playing)
     {
         Uint32 currentTick = SDL_GetTicks();

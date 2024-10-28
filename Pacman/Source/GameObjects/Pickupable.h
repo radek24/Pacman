@@ -2,7 +2,7 @@
 #include "Core/Core.h"
 #include "SDL_Wrapper.h"
 
-typedef enum {Big, Score,Cherry}PickupType;
+typedef enum {Big, Score, Cherry}PickupType;
 
 typedef struct
 {
@@ -18,7 +18,6 @@ typedef struct {
 	int size;
 	int capacity;
 }Pickups;
-
 
 void InitPickups(Pickups* pickups, SDL_Renderer* renderer);
 void AddPickup(Pickups* pickups, Vec2i* pos, PickupType type);
