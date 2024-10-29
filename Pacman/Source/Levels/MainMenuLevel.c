@@ -93,7 +93,7 @@ void MainMenuLevel_Destroy(LevelManager* manager)
 	
 	for (short i = 0; i < NUM_BUTTONS; i++)
 	{
-		DestroyButton(&(leveldata->mainMenuButtons[i]), manager->renderer);
+		DestroyButton(&(leveldata->mainMenuButtons[i]));
 	}
 	free(manager->data);
 	manager->data = NULL;

@@ -15,7 +15,7 @@ int main(int argc, char* argv[])
     };
     SDLWrapper_Init("Pacman", &graphicsState);
     
-    LevelManager manager = { .currentLevel= NULL,.data=NULL,.renderer=graphicsState.renderer ,.inputEvent=NULL,.isInputActive =0};
+    LevelManager manager = { .currentLevel= NULL,.data=NULL,.renderer=graphicsState.renderer ,.inputEvent=0,.isInputActive =0};
     InitLevelManager(&manager, "Resources/Fonts/PacFont.ttf", 16);
     
     Level mainMenu = CONSTRUCT_LEVEL(MainMenuLevel);

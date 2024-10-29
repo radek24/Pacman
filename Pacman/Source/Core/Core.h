@@ -21,6 +21,9 @@
 
 #define MENU_HEADER_LOCATION ((Vec2i){ TILE_SIZE*2, TILE_SIZE*2})
 
+#define min(a, b) ((a) < (b) ? (a) : (b))
+#define max(a, b) ((a) > (b) ? (a) : (b))
+
 int getSpriteIndexFromTime(float time, int sprites);
 
 

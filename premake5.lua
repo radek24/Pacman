@@ -23,7 +23,9 @@ project "Pacman"
         "%{prj.name}/Source/**.h",
         "%{prj.name}/Source/**.c",
         "%{prj.name}/Vendor/log/**.h",
-        "%{prj.name}/Vendor/log/**.c"
+        "%{prj.name}/Vendor/log/**.c",
+        "%{prj.name}/Vendor/ini/**.h",
+        "%{prj.name}/Vendor/ini/**.c"
     } 
     
     includedirs { 
@@ -38,13 +40,15 @@ project "Pacman"
         "Dependencies/SDL2/lib",
         "Dependencies/SDL2_Image/lib/x64",
         "Dependencies/SDL2_ttf/lib/x64",
+        "/opt/homebrew/lib"
     }
 
     links { 
         "SDL2","SDL2main","SDL2_image","SDL2_ttf"
     }
 
-
+    filter "system:macosx"
+        links { "Cocoa.framework", "IOKit.framework", "CoreVideo.framework", "CoreAudio.framework", "AudioToolbox.framework" }
 
     filter "configurations:Debug"
         defines {"PAC_DEBUG", "DEBUG"}

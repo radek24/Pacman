@@ -20,7 +20,6 @@ void AppendButton(Button* button, Button* previous, char* text, LevelManager* ma
 /* Please only pass prefixes and postfixes of lenght 2. I know, very generic function indeed.*/
 char* ReplacePrefix(char* str, const char* oldPrefix, const char* newPrefix) {
 	size_t prefixLen = 2;
-	
 	if (strncmp(str, oldPrefix, prefixLen) == 0) {
 		memcpy(str, newPrefix, prefixLen);
 	}

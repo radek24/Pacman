@@ -51,3 +51,4 @@ riderModule.iml
 .vs/
 .idea/
 Pacman/Pacman.vcxproj.filters
+Pacman/Pacman.xcodeproj/project.pbxproj
