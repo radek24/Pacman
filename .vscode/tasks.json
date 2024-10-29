@@ -13,29 +13,73 @@
             "problemMatcher": []
         },
         {
-            "label": "Build Project",
+            "label": "Build Debug Project",
             "type": "shell",
             "command": "make", 
-            "args": ["config=debug_x64"],
+            "args": [ "config=debug_x64"],
             "group": {
                 "kind": "build",
                 "isDefault": false
             },
             "dependsOn": "Generate Makefile with Premake",
-            "problemMatcher": [],
-            
+            "problemMatcher": []
         },
         {
-            "label": "Run Debug Project",
+            "label": "Build Development Project",
             "type": "shell",
-            "command": "./bin/Debug-windows-x86_64/Pacman/Pacman.exe", 
+            "command": "make", 
+            "args": [ "config=development_x64"],
             "group": {
                 "kind": "build",
                 "isDefault": false
             },
-            "dependsOn": "Build Project",
+            "dependsOn": "Generate Makefile with Premake",
             "problemMatcher": []
-
+        },
+        {
+            "label": "Build Shipping Project",
+            "type": "shell",
+            "command": "make", 
+            "args": [ "config=shipping_x64"],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "dependsOn": "Generate Makefile with Premake",
+            "problemMatcher": []
+        },
+        {
+            "label": "Run Debug Project",
+            "type": "shell",
+            "command": "cd ./bin/Debug-windows-x86_64/Pacman/ ; ./Pacman.exe", 
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "dependsOn": "Build Debug Project",
+            "problemMatcher": []
+        },
+        {
+            "label": "Run Development Project",
+            "type": "shell",
+            "command": "cd ./bin/Development-windows-x86_64/Pacman/ ; ./Pacman.exe", 
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "dependsOn": "Build Development Project",
+            "problemMatcher": []
+        },
+        {
+            "label": "Run Shipping Project",
+            "type": "shell",
+            "command": "cd ./bin/Shipping-windows-x86_64/Pacman/ ; ./Pacman.exe", 
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "dependsOn": "Build Shipping Project",
+            "problemMatcher": []
         }
     ]
 }

@@ -1,4 +1,5 @@
 
+#include <stdlib.h>
 #include "SDL_Wrapper.h"
 #include "Core/Core.h"
 #include "LevelManager.h"

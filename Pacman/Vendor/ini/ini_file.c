@@ -31,6 +31,9 @@
 #include <stdlib.h>
 #include <string.h>
 
+
+#define _CRT_SECURE_NO_WARNINGS
+
 #include "ini_file.h"
 
 /* Most systems do not allow for a line greather than 4 kbytes */
@@ -219,10 +222,7 @@ void ini_file_info(const struct Ini_File *const ini_file) {
             allocs++;
         }
     }
-    printf("Sections:         %lu\n", sections);
-    printf("Properties:       %lu\n", properties);
-    printf("Allocated chunks: %lu\n", allocs);
-    printf("Memory used:      %lu bytes\n", siz);
+
 }
 
 static char *copy_sized_string(struct Ini_File *ini_file, const char *const sized_str, const size_t len) {
@@ -696,6 +696,7 @@ Ini_File_Error ini_file_save(const struct Ini_File *const ini_file, const char *
     return ini_no_error;
 }
 
+#undef _CRT_SECURE_NO_WARNINGS
 /*------------------------------------------------------------------------------
  * END
  *------------------------------------------------------------------------------

@@ -16,7 +16,6 @@ project "Pacman"
     language "C"
     architecture "x86_64"
 
-
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 
     files {
@@ -36,20 +35,45 @@ project "Pacman"
         "%{prj.location}/Source"
     }
 
-    libdirs { 
-        "Dependencies/SDL2/lib",
-        "Dependencies/SDL2_Image/lib/x64",
-        "Dependencies/SDL2_ttf/lib/x64",
-        "/opt/homebrew/lib"
+    links { 
+        "SDL2main","SDL2","SDL2_image","SDL2_ttf"
     }
 
-    links { 
-        "SDL2","SDL2main","SDL2_image","SDL2_ttf"
+    postbuildcommands{
+        "{COPY} ../Pacman/Resources %{cfg.buildtarget.directory}/Resources"
     }
+
+    --OS Specific stuff
 
     filter "system:macosx"
+        defines {"PLATFORM_MAC"}
         links { "Cocoa.framework", "IOKit.framework", "CoreVideo.framework", "CoreAudio.framework", "AudioToolbox.framework" }
+        
+        libdirs { 
+            "/opt/homebrew/lib"
+        }
 
+    filter "system:windows"
+        defines {"PLATFORM_WINDOWS"}
+        postbuildcommands {
+            "{COPY} ../Dependencies/SDL2/bin/SDL2.dll %{cfg.buildtarget.directory}",
+            "{COPY} ../Dependencies/SDL2_image/lib/x64/SDL2_image.dll %{cfg.buildtarget.directory}",
+            "{COPY} ../Dependencies/SDL2_ttf/lib/x64/SDL2_ttf.dll %{cfg.buildtarget.directory}"
+        }
+        libdirs { 
+            "Dependencies/SDL2/lib",
+            "Dependencies/SDL2_Image/lib/x64",
+            "Dependencies/SDL2_ttf/lib/x64",
+        }
+    
+    filter { "system:windows", "action:gmake2" }
+        toolset "gcc"
+        makesettings [[ CC = gcc ]]
+
+    filter "system:linux"
+        defines {"PLATFORM_LINUX"}
+
+    --Configuration Specific stuff
     filter "configurations:Debug"
         defines {"PAC_DEBUG", "DEBUG"}
         runtime "Debug"
@@ -60,16 +84,7 @@ project "Pacman"
         runtime "Release"
         optimize "On"
  
-
     filter "configurations:Shipping"
         defines {"PAC_SHIPING", "NDEBUG"}
         runtime "Release"
         optimize "On"
-        
-
-    filter "system:windows"
-        postbuildcommands {
-            "{COPY} ../Dependencies/SDL2/bin/SDL2.dll %{cfg.buildtarget.directory}",
-            "{COPY} ../Dependencies/SDL2_image/lib/x64/SDL2_image.dll %{cfg.buildtarget.directory}",
-            "{COPY} ../Dependencies/SDL2_ttf/lib/x64/SDL2_ttf.dll %{cfg.buildtarget.directory}"
-        }
