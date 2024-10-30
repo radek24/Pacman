@@ -4,7 +4,7 @@
 #include "Core/Core.h"
 
 int isMazeTileFilled(int x, int y, Maze* maze) {
-	PAC_ASSERT(maze && maze->Tiles);
+	PAC_ASSERT(maze);
 	if (x >= MAZE_DIMENSIONS_X || x < 0 || y >= MAZE_DIMENSIONS_Y || y < 0) return 1;
 	
 	if (maze->Tiles[y][x] == space) return 0;

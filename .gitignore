@@ -44,11 +44,10 @@ Makefile
 
 bin/
 /packages/
-riderModule.iml
-/_ReSharper.Caches/
 /x64/
 /Pacman/obj/
 .vs/
 .idea/
 Pacman/Pacman.vcxproj.filters
 Pacman/Pacman.xcodeproj/project.pbxproj
+
