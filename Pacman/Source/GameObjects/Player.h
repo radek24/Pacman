@@ -10,6 +10,7 @@ typedef void (*tileChangeCallback)(LevelManager*, Vec2i*);
 
 typedef struct {
 	Vec2f position;
+	Vec2f lastPosition;
 	Vec2i lastTile;
 	Vec2i currentTile;
 	int scale;

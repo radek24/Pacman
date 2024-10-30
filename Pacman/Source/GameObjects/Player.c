@@ -11,6 +11,7 @@ void InitPlayer(Player* player, SDL_Renderer* renderer, Vec2i* StartingPos, tile
 	player->lastTile = *StartingPos;
 	player->position.x = (float)StartingPos->x*TILE_SIZE;
 	player->position.y = (float)StartingPos->y*TILE_SIZE+9;
+	player->lastPosition = player->position;
 	player->desiredOrientation = Left;
 	player->orientation = Left;
 	player->speed = 80.0f;
@@ -44,6 +45,8 @@ void UpdatePlayer(Player* player, LevelManager* manager, float deltaTime, Maze* 
 	UpdatePlayerLocation(player, deltaTime);
 
 	if (deltaTime * player->currentSpeed > 1.0) PAC_WARN("Player is skipping pixels, this is very bad. Moved by %f", deltaTime * player->currentSpeed);
+
+	player->lastPosition = player->position;
 }
 
 /*This function moves player only when its possible to turn, so the control seems more responsive*/
@@ -176,7 +179,7 @@ void RenderPlayer(Player* player, float currentTime, SDL_Renderer* renderer)
 	SDL_Rect tile = { player->scale* getSpriteIndexFromTime(currentTime,2) ,player->orientation * player->scale ,player->scale,player->scale};
 	SDL_RenderCopy(renderer, player->SpriteSheet, &tile, &position);
 
-#if !defined(PAC_SHIPPING) && 0
+#if !defined(PAC_SHIPPING) 
 	SDL_Rect currentTile = { (TILE_SIZE ) * (player->currentTile.x+1)  ,(TILE_SIZE ) * (player->currentTile.y+1),TILE_SIZE,TILE_SIZE };
 	SDL_Rect playerPos = { (int)player->position.x  ,(int)player->position.y,4,4 };
 	SDL_Rect playerPosCenter = { (int)player->position.x+player->scale  ,(int)player->position.y + player->scale,4,4 };
