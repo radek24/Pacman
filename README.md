@@ -53,8 +53,11 @@ While the project aims to be cross-platform, Windows is the primary development 
 - [SDL2](https://github.com/libsdl-org/SDL) - Graphics library
   - Used for rendering the game and loading fonts or images
 
-- [rxi/log](https://github.com/rxi/log.c) - A feature-rich logging library for C
+- [rxi/log](https://github.com/rxi/log.c) - Logging library for C
   - Used for prettier logs that can also be outputed to a file
+
+- [ClecioJung/ini](https://github.com/ClecioJung/ini) - Library for manipulating with .ini files
+  - Used for saving and loading settings and leaderboards in .ini file format
 
 ---
 Feel free to expore the code and build!
