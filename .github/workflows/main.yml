@@ -1,0 +1,45 @@
+name: Linux SDL Project Build
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+          config:
+            - build_type: debug_x64
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        submodules: recursive
+
+    - name: Install SDL Dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y \
+          libsdl2-dev \
+          libsdl2-image-dev \
+          libsdl2-mixer-dev \
+          libsdl2-ttf-dev \
+          build-essential
+
+    - name: Install Premake
+      run: |
+        wget https://github.com/premake/premake-core/releases/download/v5.0.0-alpha16/premake-5.0.0-alpha16-linux.tar.gz
+        tar -xzf premake-5.0.0-alpha16-linux.tar.gz
+        sudo mv premake5 /usr/local/bin/
+        rm premake-5.0.0-alpha16-linux.tar.gz
+
+    - name: Generate Project Files
+      run: premake5 gmake2
+
+    - name: Build Project
+      run: |
+        config=${{ matrix.config }}
+        make config=${config}_x64
+      working-directory: ./build
