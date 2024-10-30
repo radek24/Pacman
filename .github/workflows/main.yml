@@ -11,7 +11,7 @@ jobs:
     strategy:
       matrix:
           config:
-            - build_type: debug_x64
+            - build_type: debug
 
     steps:
     - uses: actions/checkout@v3
@@ -40,6 +40,5 @@ jobs:
 
     - name: Build Project
       run: |
-        config=${{ matrix.config }}
-        make config=${config}_x64
-      working-directory: ./build
+        make config=debug_x64
+      working-directory: ./Pacman
