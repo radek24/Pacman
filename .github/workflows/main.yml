@@ -38,7 +38,7 @@ jobs:
     - name: Generate Project Files
       run: premake5 gmake2
 
-    - name: Build Project
+    - name: Build Project with AddressSanitizer
       run: |
-        make config=debug_x64
+        make config=debug_x64 CFLAGS="-fsanitize=address" LDFLAGS="-fsanitize=address"
       working-directory: ./Pacman
