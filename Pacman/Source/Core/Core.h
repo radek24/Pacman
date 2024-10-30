@@ -22,11 +22,11 @@
 #define MENU_HEADER_LOCATION ((Vec2i){ TILE_SIZE*2, TILE_SIZE*2})
 
 
-#ifndef min
+#ifndef PLATFORM_WINDOWS
 #define min(a,b) ((a) < (b) ? (a) : (b))
 #endif
 
-#ifndef max
+#ifndef PLATFORM_WINDOWS
 #define max(a,b) ((a) > (b) ? (a) : (b))
 #endif
 
