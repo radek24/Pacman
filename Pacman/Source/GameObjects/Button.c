@@ -36,16 +36,26 @@ void UpdateButton(Button* button, LevelManager* manager)
 	switch (event.key.keysym.sym)
 	{
 	case SDLK_UP: {
+		char c[128];
+		strcpy(c,button->text.text);
+		memcpy(c, "  ", 2);
 		button->previousButton->state = selected;
 		button->state = deselected;
-		UpdateText(&(button->text), ReplacePrefix(button->text.text,"> ", "  "), manager);
-		UpdateText(&(button->previousButton->text), ReplacePrefix(button->previousButton->text.text, "  ", "> "), manager);
+		UpdateText(&(button->text), c, manager);
+		strcpy(c,button->previousButton->text.text);
+		memcpy(c,"> ",2);
+		UpdateText(&(button->previousButton->text), c, manager);
 	}break;
 	case SDLK_DOWN: {
+		char c[128];
+		strcpy(c,button->text.text);
+		memcpy(c, "  ", 2);
 		button->nextButton->state = selected;
 		button->state = deselected;
-		UpdateText(&(button->text), ReplacePrefix(button->text.text, "> ", "  "), manager);
-		UpdateText(&(button->nextButton->text), ReplacePrefix(button->nextButton->text.text, "  ", "> "), manager);
+		UpdateText(&(button->text), c, manager);
+		strcpy(c,button->nextButton->text.text);
+		memcpy(c,"> ",2);
+		UpdateText(&(button->nextButton->text), c, manager);
 	}break;
 	case SDLK_KP_ENTER:
 	case SDLK_RETURN: {
