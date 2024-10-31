@@ -101,7 +101,6 @@ void LeaderboardLevel_Update(float deltaTime, LevelManager* manager)
 {
 	PAC_ASSERT(manager && manager->data);
 	LeaderboardData* leveldata = ((LeaderboardData*)manager->data);
-
 	CheckReturnInput(manager);
 }
 
@@ -118,7 +117,6 @@ void LeaderboardLevel_Render(float deltaTime, LevelManager* manager)
 		RenderText(&(leveldata->stats[i].text), manager->renderer);
 	}
 	RenderText(&(leveldata->leaderboardTitle), manager->renderer);
-	
 }
 
 void LeaderboardLevel_Destroy(LevelManager* manager)

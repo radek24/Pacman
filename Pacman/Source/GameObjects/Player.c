@@ -25,6 +25,7 @@ void InitPlayer(Player* player, SDL_Renderer* renderer, Vec2i* StartingPos, tile
 
 }
 void UpdatePlayer(Player* player, LevelManager* manager, float deltaTime, Maze* maze) {
+	
 	SDL_Event event = manager->inputEvent;
 	if (manager->isInputActive && event.type == SDL_KEYDOWN) {
 		if (event.key.keysym.sym == SDLK_UP) player->desiredOrientation = Up;
@@ -36,17 +37,26 @@ void UpdatePlayer(Player* player, LevelManager* manager, float deltaTime, Maze* 
 	
 	// Colisin checking algorithm 
 	// We only check collision if player enters new tile.
+
+	
+
+
+	
+	//PAC_LOG("%f %f",player->lastPosition.x, player->position.x);
+	
+	
+
 	if (IsPlayerPerfectlyOnTile(player)) {
 		UpdateCurrentTile(player,manager);
 		CheckPlayerCollision(player, maze);
 		DelayedUpdatePlayerInput(player, maze);
 	}
-	
 	UpdatePlayerLocation(player, deltaTime);
-
-	if (deltaTime * player->currentSpeed > 1.0) PAC_WARN("Player is skipping pixels, this is very bad. Moved by %f", deltaTime * player->currentSpeed);
+	
+	//if (deltaTime * player->currentSpeed > 1.0) PAC_WARN("Player is skipping pixels, this is very bad. Moved by %f", deltaTime * player->currentSpeed);
 
 	player->lastPosition = player->position;
+	//SDL_Delay(50);
 }
 
 /*This function moves player only when its possible to turn, so the control seems more responsive*/
@@ -87,6 +97,7 @@ void DelayedUpdatePlayerInput(Player* player, Maze* maze)
 /*Check if player is pixel perfect on tile, this functin will be problematic if player moves by more than 2 pixel at once, but idk solution to this.*/
 int IsPlayerPerfectlyOnTile(Player* player)
 {
+	//return (int)(player->lastPosition.x / TILE_SIZE) != (int)(player->position.x / TILE_SIZE)
 	return ((int)player->position.x) % (TILE_SIZE) == (TILE_SIZE / 2) + 1 && ((int)player->position.y) % (TILE_SIZE) == (TILE_SIZE / 2) + 1;
 }
 

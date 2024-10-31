@@ -42,8 +42,6 @@ void PlayerTileUpdateCallback(LevelManager* manager, Vec2i *pos) {
 	}
 }
 
-
-
 void GameLevel_Init(LevelManager* manager)
 {
 	manager->data = malloc(sizeof(GameLevelData));

@@ -1,6 +1,5 @@
 #include "SettingsLevel.h"
 #include "GameObjects/Text.h"
-#include "GameObjects/Sprite.h"
 
 typedef struct {
 	Text settingsTitle;
@@ -18,7 +17,6 @@ void SettingsLevel_Update(float deltaTime, LevelManager* manager)
 {
 	PAC_ASSERT(manager && manager->data);
 	SettingsData* leveldata = ((SettingsData*)manager->data);
-	
 	CheckReturnInput(manager);
 }
 

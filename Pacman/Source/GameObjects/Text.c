@@ -9,7 +9,6 @@ void InitText(Text* text, SDL_Color color, char* textToRender, Vec2i location, L
 	text->_currentTexture = SDL_CreateTextureFromSurface(manager->renderer, surface);
 	SDL_FreeSurface(surface);
 	SDL_QueryTexture(text->_currentTexture, NULL, NULL, &(text->_textDimensions.x), &(text->_textDimensions.y));
-
 }
 
 void UpdateText(Text* text, char* textToRender, LevelManager* manager)

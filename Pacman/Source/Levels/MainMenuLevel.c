@@ -66,7 +66,6 @@ void MainMenuLevel_Update(float deltaTime, LevelManager* manager)
 	PAC_ASSERT(manager && manager->data);
 	MainMenuData* leveldata = ((MainMenuData*)manager->data);
 	
-	
 	int tmp;
 	for (short i = 0; i < NUM_BUTTONS; i++)
 	{
