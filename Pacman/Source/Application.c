@@ -6,7 +6,6 @@
 #include "Levels/GameLevel.h"
 #include "Levels/MainMenuLevel.h"
 
-
 int main(int argc, char* argv[])
 {
     GraphicsState graphicsState = {

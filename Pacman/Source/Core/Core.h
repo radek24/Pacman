@@ -3,6 +3,7 @@
 #include "Log.h"
 #include "Assert.h"
 #include "Math.h"
+#include <ini/ini_file.h>
 
 #define TILE_SIZE 16
 #define MAZE_DIMENSIONS_X 28
@@ -14,7 +15,7 @@
 #define NULL ((void *)0)
 #endif
 
-#define LEADERBOARD_FILENAME "leaderboards.ini"
+#define LEADERBOARD_FILENAME "Resources/Config/Leaderboards.ini"
 #define LEADERBORDS_SECTION "Leaderboards"
 
 #define CONSTRUCT_LEVEL(LevelName) { LevelName##_Init, LevelName##_Update, LevelName##_Render, LevelName##_Destroy }
@@ -33,3 +34,4 @@
 int getSpriteIndexFromTime(float time, int sprites);
 
 
+int LogErrorCallback(const char* const filename, size_t line_number, size_t column, char* line, Ini_File_Error error);
