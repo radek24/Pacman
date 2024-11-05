@@ -20,6 +20,7 @@ typedef void (*SettingPressedCallback)(LevelManager*, int);
 
 typedef struct  {
     Text text;
+    Text currValue;
     /* TODORADEK: Make this dynamic!*/
     int options[50];
     int optionsNum;
@@ -37,7 +38,8 @@ typedef struct  {
 }SettingsManager;
 
 void InitSettingsManager(SettingsManager* settingsManager);
-void InitSetting(Setting* setting, char* settingName, char* iniName, int* options, int optionsNum, SettingPressedCallback handler, LevelManager* manager, int index);
+void InitSetting(SettingsManager* settingManager,Setting* setting, char* settingName, char* iniName, int* options, int optionsNum, SettingPressedCallback handler, LevelManager* manager, int index);
 void AppendSetting(SettingsManager* settingsManager, char* settingName,char* iniName,int options[], int optionsNum, SettingPressedCallback handler, LevelManager* manager);
+void UpdateSettings(SettingsManager* settingsManager, LevelManager* manager);
 void DrawSettings(SettingsManager* manager, SDL_Renderer* renderer);
 void DestroySettings(SettingsManager* manager);

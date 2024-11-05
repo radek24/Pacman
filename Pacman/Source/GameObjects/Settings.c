@@ -2,9 +2,19 @@
 
 
 
+static int FindIndex(int target, int arr[], int size) {
+	for (int i = 0; i < size; i++) {
+		if (arr[i] == target) {
+			return i;
+		}
+	}
+	return -1; 
+}
+
 
 void InitSettingsManager(SettingsManager* manager)
 {
+
 	manager->size = 0;
 	manager->capacity = 4;
 	manager->settings = (Setting*)malloc(sizeof(Setting) * manager->capacity);
@@ -16,13 +26,21 @@ void InitSettingsManager(SettingsManager* manager)
 	PAC_LOG("Setting file opened sucesfully");
 }
 
-void InitSetting(Setting* setting, char* settingName, char* iniName, int* options, int optionsNum, SettingPressedCallback handler, LevelManager* manager, int index)
+void InitSetting(SettingsManager* settingManager,Setting* setting, char* settingName, char* iniName, int* options, int optionsNum, SettingPressedCallback handler, LevelManager* manager, int index)
 {
 	InitText(&(setting->text), (SDL_Color) { 255, 255, 255 }, settingName, (Vec2i) { TILE_SIZE * 3, TILE_SIZE* (5 + (index * 2)) }, manager);
+	
+	char str[20];
+	long x = 0;
+	ini_file_find_integer(settingManager->settingFile, SETTINGS_SECTION_NAME, "StartingLives", &x);
+	
+	itoa(options[FindIndex(x, options, optionsNum)], str, 10);
+	InitText(&(setting->currValue), (SDL_Color) { 255, 255, 255 }, str, (Vec2i) { TILE_SIZE * 23, TILE_SIZE* (5 + (index * 2)) }, manager);
+
 	setting->callback = handler;
 	memcpy(setting->options, options, optionsNum * sizeof(int));
 	setting->optionsNum = optionsNum;
-	
+	setting->currentOption = 0;
 }
 
 void AppendSetting(SettingsManager* settingsManager, char* settingName, char* iniName, int options[], int optionsNum, SettingPressedCallback handler, LevelManager* manager)
@@ -34,8 +52,52 @@ void AppendSetting(SettingsManager* settingsManager, char* settingName, char* in
 		settingsManager->settings = tmp;
 		PAC_LOG("Realloc settings to %d", settingsManager->capacity);
 	}
-	InitSetting(&(settingsManager->settings[settingsManager->size]), settingName,iniName, options, optionsNum, handler,manager, settingsManager->size);
+	InitSetting(manager,&(settingsManager->settings[settingsManager->size]), settingName,iniName, options, optionsNum, handler,manager, settingsManager->size);
 	settingsManager->size++;
+}
+
+void UpdateSettings(SettingsManager* settingsManager, LevelManager* manager)
+{
+	if (!manager->isInputActive) return;
+	SDL_Event event = manager->inputEvent;
+	if (event.type != SDL_KEYDOWN) return;
+
+
+	Setting* currentSetting =&(settingsManager->settings[settingsManager->currentActive]);
+	Setting* allSettings = (settingsManager->settings);
+	
+	switch (event.key.keysym.sym)
+	{
+		
+	case SDLK_UP: {
+		char c[128];
+		int nextIndex = ((settingsManager->currentActive - 1) % settingsManager->size + settingsManager->size) % settingsManager->size;
+		strcpy(c, (currentSetting)->text.text);
+		memcpy(c, "  ", 2);
+		UpdateText(&(currentSetting->text), c, manager);
+		strcpy(c, (allSettings[nextIndex]).text.text);
+		memcpy(c, "> ", 2);
+		UpdateText(&((allSettings[nextIndex]).text), c, manager);
+		settingsManager->currentActive = nextIndex;
+	}break;
+	case SDLK_DOWN: {
+		char c[128];
+		strcpy(c, (currentSetting)->text.text);
+		memcpy(c, "  ", 2);
+		UpdateText(&(currentSetting->text), c, manager);
+		strcpy(c, (allSettings[(settingsManager->currentActive + 1) % (settingsManager->size )]).text.text);
+		memcpy(c, "> ", 2);
+		UpdateText(&((allSettings[(settingsManager->currentActive + 1) % (settingsManager->size )]).text), c, manager);
+		settingsManager->currentActive = (settingsManager->currentActive + 1) % (settingsManager->size);
+	}break;
+	case SDLK_LEFT: {
+		currentSetting->currentOption = ((currentSetting->currentOption - 1) % currentSetting->optionsNum + currentSetting->optionsNum) % currentSetting->optionsNum;
+	}break;
+	case SDLK_RIGHT: {
+		currentSetting->currentOption = ((currentSetting->currentOption + 1) % currentSetting->optionsNum + currentSetting->optionsNum) % currentSetting->optionsNum;
+	}break;			  
+	}
+
 }
 
 void DrawSettings(SettingsManager* manager, SDL_Renderer* renderer)
@@ -43,10 +105,18 @@ void DrawSettings(SettingsManager* manager, SDL_Renderer* renderer)
 	for (int i = 0; i < manager->size; i++)
 	{
 		RenderText(&(manager->settings[i].text), renderer);
+		RenderText(&(manager->settings[i].currValue), renderer);
 	}
 }
 
 void DestroySettings(SettingsManager* manager)
 {
-	PAC_WARN("NO destroy event in settings");
+	for (int i = 0; i < manager->size; i++)
+	{	
+		DestroyText(&(manager->settings[i].text));
+		DestroyText(&(manager->settings[i].currValue));
+	}
+	free(manager->settings);
+	manager->settings = NULL;
+	ini_file_free(manager->settingFile);
 }
