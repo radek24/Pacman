@@ -31,12 +31,12 @@ void InitSetting(SettingsManager* settingManager,Setting* setting, char* setting
 	InitText(&(setting->text), (SDL_Color) { 255, 255, 255 }, settingName, (Vec2i) { TILE_SIZE * 3, TILE_SIZE* (5 + (index * 2)) }, manager);
 	
 	char str[20];
-	int number;
+	long number;
 	ini_file_find_integer(settingManager->settingFile, SETTINGS_SECTION_NAME, iniName, &number);
 	
-	itoa(options[FindIndex(number, options, optionsNum)], str, 10);
+	sprintf(str, "%d", options[FindIndex((int)number, options, optionsNum)]);
 	InitText(&(setting->currValue), (SDL_Color) { 255, 255, 255 }, str, (Vec2i) { TILE_SIZE * 23, TILE_SIZE* (5 + (index * 2)) }, manager);
-	setting->currentOption = FindIndex(number, options, optionsNum);
+	setting->currentOption = FindIndex((int)number, options, optionsNum);
 	strcpy(setting->iniName, iniName);
 
 	setting->callback = handler;
