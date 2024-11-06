@@ -18,7 +18,7 @@ void SettingsLevel_Init(LevelManager* manager)
 	SettingsData* leveldata = ((SettingsData*)manager->data);
 	InitText(&(leveldata->title), (SDL_Color) { 255, 255, 255, 255 }, "Settings (esc to close)", MENU_HEADER_LOCATION, manager);
 	InitSettingsManager(&(leveldata->settingManager));
-	int volumeOptions[11] = { 0,1,2,3,4,5,6,7,8,9,10 };
+	int volumeOptions[11] = { 0,1,2,3,4,5,6,7,8,9 };
 	AppendSetting(&(leveldata->settingManager), "> Music volume", "MusicVolume", volumeOptions, 11, GenericCallback,manager);
 	AppendSetting(&(leveldata->settingManager), "  Effects volume", "EffectVolume", volumeOptions, 11, GenericCallback, manager);
 	int livesOptions[11] = { 1,2,3,4,5,6 };

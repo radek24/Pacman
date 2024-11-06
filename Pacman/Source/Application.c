@@ -6,8 +6,11 @@
 #include "Levels/GameLevel.h"
 #include "Levels/MainMenuLevel.h"
 
+#include "ini/ini_file.h"
+
 int main(int argc, char* argv[])
 {
+    
     GraphicsState graphicsState = {
     .windowTransform = { {SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED}, {WINDOW_SIZE_X, WINDOW_SIZE_Y} },
     .window = NULL,

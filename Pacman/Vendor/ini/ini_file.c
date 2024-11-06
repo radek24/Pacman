@@ -462,7 +462,9 @@ Ini_File_Error ini_file_find_property(struct Ini_File *const ini_file, const cha
     if (key[0] == '\0') {
         return ini_invalid_parameters;
     }
+
     error = ini_file_find_section(ini_file, section, &ini_section);
+    
     if (error != ini_no_error) {
         return error;
     }
@@ -646,7 +648,7 @@ Ini_File_Error ini_file_add_property_sized(struct Ini_File *const ini_file, cons
         return ini_value_not_provided;
     }
     if (ini_file_find_key_index(ini_file->current_section, key, key_len, &property_index) == ini_no_error) {
-        /* There is already a property with that key name, which is not allowed */
+        strcpy(ini_file->sections[0].properties[property_index].value, value);
         return ini_repeated_key;
     }
     /* Check if we need expand the array of properties */

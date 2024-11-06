@@ -22,6 +22,7 @@ typedef struct  {
     Text text;
     Text currValue;
     /* TODORADEK: Make this dynamic!*/
+    char iniName[64];
     int options[50];
     int optionsNum;
     int currentOption;
@@ -34,12 +35,13 @@ typedef struct  {
     int size;
     int capacity;
     int currentActive;
-    struct Ini_File* settingFile;
+    Ini_File* settingFile;
 }SettingsManager;
 
 void InitSettingsManager(SettingsManager* settingsManager);
 void InitSetting(SettingsManager* settingManager,Setting* setting, char* settingName, char* iniName, int* options, int optionsNum, SettingPressedCallback handler, LevelManager* manager, int index);
 void AppendSetting(SettingsManager* settingsManager, char* settingName,char* iniName,int options[], int optionsNum, SettingPressedCallback handler, LevelManager* manager);
 void UpdateSettings(SettingsManager* settingsManager, LevelManager* manager);
+void UpdateSettingChoise(SettingsManager* settingsManager, Setting* currentSetting, LevelManager* manager);
 void DrawSettings(SettingsManager* manager, SDL_Renderer* renderer);
 void DestroySettings(SettingsManager* manager);

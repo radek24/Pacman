@@ -31,16 +31,17 @@ void InitSetting(SettingsManager* settingManager,Setting* setting, char* setting
 	InitText(&(setting->text), (SDL_Color) { 255, 255, 255 }, settingName, (Vec2i) { TILE_SIZE * 3, TILE_SIZE* (5 + (index * 2)) }, manager);
 	
 	char str[20];
-	long x = 0;
-	ini_file_find_integer(settingManager->settingFile, SETTINGS_SECTION_NAME, "StartingLives", &x);
+	int number;
+	ini_file_find_integer(settingManager->settingFile, SETTINGS_SECTION_NAME, iniName, &number);
 	
-	itoa(options[FindIndex(x, options, optionsNum)], str, 10);
+	itoa(options[FindIndex(number, options, optionsNum)], str, 10);
 	InitText(&(setting->currValue), (SDL_Color) { 255, 255, 255 }, str, (Vec2i) { TILE_SIZE * 23, TILE_SIZE* (5 + (index * 2)) }, manager);
+	setting->currentOption = FindIndex(number, options, optionsNum);
+	strcpy(setting->iniName, iniName);
 
 	setting->callback = handler;
 	memcpy(setting->options, options, optionsNum * sizeof(int));
 	setting->optionsNum = optionsNum;
-	setting->currentOption = 0;
 }
 
 void AppendSetting(SettingsManager* settingsManager, char* settingName, char* iniName, int options[], int optionsNum, SettingPressedCallback handler, LevelManager* manager)
@@ -52,7 +53,7 @@ void AppendSetting(SettingsManager* settingsManager, char* settingName, char* in
 		settingsManager->settings = tmp;
 		PAC_LOG("Realloc settings to %d", settingsManager->capacity);
 	}
-	InitSetting(manager,&(settingsManager->settings[settingsManager->size]), settingName,iniName, options, optionsNum, handler,manager, settingsManager->size);
+	InitSetting(settingsManager,&(settingsManager->settings[settingsManager->size]), settingName,iniName, options, optionsNum, handler,manager, settingsManager->size);
 	settingsManager->size++;
 }
 
@@ -92,12 +93,25 @@ void UpdateSettings(SettingsManager* settingsManager, LevelManager* manager)
 	}break;
 	case SDLK_LEFT: {
 		currentSetting->currentOption = ((currentSetting->currentOption - 1) % currentSetting->optionsNum + currentSetting->optionsNum) % currentSetting->optionsNum;
+		UpdateSettingChoise(settingsManager, currentSetting, manager);
+		
 	}break;
 	case SDLK_RIGHT: {
 		currentSetting->currentOption = ((currentSetting->currentOption + 1) % currentSetting->optionsNum + currentSetting->optionsNum) % currentSetting->optionsNum;
+		UpdateSettingChoise(settingsManager, currentSetting, manager);
 	}break;			  
 	}
 
+}
+
+void UpdateSettingChoise(SettingsManager* settingsManager, Setting* currentSetting, LevelManager* manager)
+{
+	char c[128];
+	sprintf(c, "%d", currentSetting->options[currentSetting->currentOption]);
+	UpdateText(&(currentSetting->currValue), c, manager);
+	currentSetting->callback(manager,currentSetting->options[currentSetting->currentOption]);
+	Ini_File_Error err=0;
+	err = ini_file_add_property(settingsManager->settingFile, currentSetting->iniName, c);
 }
 
 void DrawSettings(SettingsManager* manager, SDL_Renderer* renderer)
@@ -111,6 +125,11 @@ void DrawSettings(SettingsManager* manager, SDL_Renderer* renderer)
 
 void DestroySettings(SettingsManager* manager)
 {
+	remove(SETTINGS_FILE_NAME);
+
+
+	ini_file_save(manager->settingFile, SETTINGS_FILE_NAME);
+	ini_file_free(manager->settingFile);
 	for (int i = 0; i < manager->size; i++)
 	{	
 		DestroyText(&(manager->settings[i].text));
@@ -118,5 +137,4 @@ void DestroySettings(SettingsManager* manager)
 	}
 	free(manager->settings);
 	manager->settings = NULL;
-	ini_file_free(manager->settingFile);
 }
