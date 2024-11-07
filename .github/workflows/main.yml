@@ -28,15 +28,8 @@ jobs:
           libsdl2-ttf-dev \
           build-essential
 
-    - name: Install Premake
-      run: |
-        wget https://github.com/premake/premake-core/releases/download/v5.0.0-alpha16/premake-5.0.0-alpha16-linux.tar.gz
-        tar -xzf premake-5.0.0-alpha16-linux.tar.gz
-        sudo mv premake5 /usr/local/bin/
-        rm premake-5.0.0-alpha16-linux.tar.gz
-
     - name: Generate Project Files
-      run: premake5 gmake2
+      run: ./Vendor/bin/Linux/premake5 gmake2
 
     - name: Build Project with AddressSanitizer
       run: |
