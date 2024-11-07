@@ -72,7 +72,13 @@ project "Pacman"
 
     filter "system:linux"
         defines {"PLATFORM_LINUX"}
-
+        buildoptions {
+            "-Wall",
+            "-Wextra",
+            "-pedantic",
+            "-Werror"
+        }
+        
     --Configuration Specific stuff
     filter "configurations:Debug"
         defines {"PAC_DEBUG", "DEBUG"}
