@@ -76,9 +76,12 @@ project "Pacman"
             "-Wall",
             "-Wextra",
             "-pedantic",
-            "-Werror"
+            "-Werror=uninitialized",
+            "-Werror=return-type",
+            "-Wconversion",
+            "-Wdangling-pointer=1",
         }
-        
+
     --Configuration Specific stuff
     filter "configurations:Debug"
         defines {"PAC_DEBUG", "DEBUG"}
