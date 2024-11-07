@@ -28,14 +28,8 @@ jobs:
           libsdl2-ttf-dev \
           build-essential
 
-    - name: Use Custom Premake Binary
-      run: |
-            chmod +x ./vendor/bin/Linux/premake5
-            export PATH=$PATH:vendor/bin/Linux
-      shell: bash
-    
     - name: Generate Project Files
-      run: premake5 gmake2
+      run: ./vendor/bin/Linux/premake5 gmake2
 
     - name: Build Project with AddressSanitizer
       run: |
