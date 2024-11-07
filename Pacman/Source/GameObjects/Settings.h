@@ -32,8 +32,8 @@ typedef struct  {
 
 typedef struct  {
     Setting* settings;
-    int size;
-    int capacity;
+    size_t size;
+    size_t capacity;
     int currentActive;
     Ini_File* settingFile;
 }SettingsManager;

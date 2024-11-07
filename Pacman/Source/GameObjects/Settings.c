@@ -28,14 +28,14 @@ void InitSettingsManager(SettingsManager* manager)
 
 void InitSetting(SettingsManager* settingManager,Setting* setting, char* settingName, char* iniName, int* options, int optionsNum, SettingPressedCallback handler, LevelManager* manager, int index)
 {
-	InitText(&(setting->text), (SDL_Color) { 255, 255, 255 }, settingName, (Vec2i) { TILE_SIZE * 3, TILE_SIZE* (5 + (index * 2)) }, manager);
+	InitText(&(setting->text), (SDL_Color) { 255, 255, 255, 255 }, settingName, (Vec2i) { TILE_SIZE * 3, TILE_SIZE* (5 + (index * 2)) }, manager);
 	
 	char str[20];
 	long number;
 	ini_file_find_integer(settingManager->settingFile, SETTINGS_SECTION_NAME, iniName, &number);
 	
 	sprintf(str, "%d", options[FindIndex((int)number, options, optionsNum)]);
-	InitText(&(setting->currValue), (SDL_Color) { 255, 255, 255 }, str, (Vec2i) { TILE_SIZE * 23, TILE_SIZE* (5 + (index * 2)) }, manager);
+	InitText(&(setting->currValue), (SDL_Color) { 255, 255, 255, 255 }, str, (Vec2i) { TILE_SIZE * 23, TILE_SIZE* (5 + (index * 2)) }, manager);
 	setting->currentOption = FindIndex((int)number, options, optionsNum);
 	strcpy(setting->iniName, iniName);
 

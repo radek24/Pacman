@@ -15,8 +15,8 @@ typedef struct {
 	SDL_Texture* SpriteSheet;
 	int spriteSize;
 	Pickupable* pickups;
-	int size;
-	int capacity;
+	size_t size;
+	size_t capacity;
 }Pickups;
 
 void InitPickups(Pickups* pickups, SDL_Renderer* renderer);

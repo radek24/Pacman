@@ -60,7 +60,7 @@ void InitMaze(const char* filePath, Maze* maze, Pickups* pickups,SDL_Renderer* r
 
 	char ch;
 	int currentIndex=0;
-	while ((ch = fgetc(mazefile)) != EOF) {
+	while ((ch = (char)fgetc(mazefile)) != EOF) {
 		int currentX = currentIndex%MAZE_DIMENSIONS_X;
 		int currentY = currentIndex/MAZE_DIMENSIONS_X;
 
