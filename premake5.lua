@@ -78,8 +78,7 @@ project "Pacman"
             "-pedantic",
             "-Werror=uninitialized",
             "-Werror=return-type",
-            "-Wconversion",
-            "-Wdangling-pointer=1",
+            "-Wconversion"
         }
 
     --Configuration Specific stuff
