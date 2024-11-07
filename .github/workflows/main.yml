@@ -28,6 +28,9 @@ jobs:
           libsdl2-ttf-dev \
           build-essential
 
+    - name: Make Premake Executable
+      run: chmod +x ./vendor/bin/Linux/premake5
+
     - name: Generate Project Files
       run: ./vendor/bin/Linux/premake5 gmake2
 
