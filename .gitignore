@@ -43,9 +43,10 @@ Makefile
 *.vcxproj.user
 
 bin/
+!Vendor/bin/
+
 /Pacman/obj/
 .vs/
 .idea/
 Pacman/Pacman.vcxproj.filters
 Pacman/Pacman.xcodeproj/project.pbxproj
-!/Vendor/bin/Linux/*
