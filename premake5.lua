@@ -56,12 +56,12 @@ project "Pacman"
     filter "system:windows"
         defines {"PLATFORM_WINDOWS"}
         postbuildcommands {
-            "{COPY} ../Dependencies/SDL2/bin/SDL2.dll %{cfg.buildtarget.directory}",
+            "{COPY} ../Dependencies/SDL2/lib/x64/SDL2.dll %{cfg.buildtarget.directory}",
             "{COPY} ../Dependencies/SDL2_image/lib/x64/SDL2_image.dll %{cfg.buildtarget.directory}",
             "{COPY} ../Dependencies/SDL2_ttf/lib/x64/SDL2_ttf.dll %{cfg.buildtarget.directory}"
         }
         libdirs { 
-            "Dependencies/SDL2/lib",
+            "Dependencies/SDL2/lib/x64",
             "Dependencies/SDL2_Image/lib/x64",
             "Dependencies/SDL2_ttf/lib/x64",
         }
@@ -78,7 +78,9 @@ project "Pacman"
             "-pedantic",
             "-Werror=uninitialized",
             "-Werror=return-type",
-            "-Wconversion"
+            "-Wconversion",
+            "-Wno-unused-variable",
+            "-Wno-unused-parameter"
         }
 
     --Configuration Specific stuff
