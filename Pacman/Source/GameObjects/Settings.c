@@ -110,13 +110,12 @@ void UpdateSettingChoise(SettingsManager* settingsManager, Setting* currentSetti
 	sprintf(c, "%d", currentSetting->options[currentSetting->currentOption]);
 	UpdateText(&(currentSetting->currValue), c, manager);
 	currentSetting->callback(manager,currentSetting->options[currentSetting->currentOption]);
-	Ini_File_Error err=0;
-	err = ini_file_add_property(settingsManager->settingFile, currentSetting->iniName, c);
+	ini_file_add_property(settingsManager->settingFile, currentSetting->iniName, c);
 }
 
 void DrawSettings(SettingsManager* manager, SDL_Renderer* renderer)
 {
-	for (int i = 0; i < manager->size; i++)
+	for (size_t i = 0; i < manager->size; i++)
 	{
 		RenderText(&(manager->settings[i].text), renderer);
 		RenderText(&(manager->settings[i].currValue), renderer);
@@ -130,7 +129,7 @@ void DestroySettings(SettingsManager* manager)
 
 	ini_file_save(manager->settingFile, SETTINGS_FILE_NAME);
 	ini_file_free(manager->settingFile);
-	for (int i = 0; i < manager->size; i++)
+	for (size_t i = 0; i < manager->size; i++)
 	{	
 		DestroyText(&(manager->settings[i].text));
 		DestroyText(&(manager->settings[i].currValue));

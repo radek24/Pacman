@@ -63,5 +63,4 @@ void DestroyPickups(Pickups* pickups)
 	free(pickups->pickups);
 	pickups->pickups = NULL;
 	PAC_LOG("Pickups destroyed")
-
 }

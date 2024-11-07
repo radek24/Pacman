@@ -34,7 +34,7 @@ typedef struct  {
     Setting* settings;
     size_t size;
     size_t capacity;
-    int currentActive;
+    size_t currentActive;
     Ini_File* settingFile;
 }SettingsManager;
 

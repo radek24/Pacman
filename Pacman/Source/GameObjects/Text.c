@@ -2,7 +2,7 @@
 
 void InitText(Text* text, SDL_Color color, char* textToRender, Vec2i location, LevelManager* manager)
 {
-	strcpy_s(text->text,sizeof(text->text), textToRender);
+	strcpy(text->text, textToRender);
 	text->color = color;
 	text->location = location;
 	SDL_Surface* surface = TTF_RenderText_Solid(manager->font, text->text, text->color);
@@ -13,7 +13,7 @@ void InitText(Text* text, SDL_Color color, char* textToRender, Vec2i location, L
 
 void UpdateText(Text* text, char* textToRender, LevelManager* manager)
 {
-	strcpy_s(text->text,sizeof(text->text), textToRender);
+	strcpy(text->text, textToRender);
 	SDL_Surface* surface = TTF_RenderText_Solid(manager->font, text->text, text->color);
 	SDL_DestroyTexture(text->_currentTexture);
 	text->_currentTexture = SDL_CreateTextureFromSurface(manager->renderer, surface);
