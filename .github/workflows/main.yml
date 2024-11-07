@@ -30,8 +30,8 @@ jobs:
 
     - name: Use Custom Premake Binary
       run: |
-            chmod +x ./Vendor/bin/Linux/premake5
-            export PATH=$PATH:Vendor/bin/Linux
+            chmod +x ./vendor/bin/Linux/premake5
+            export PATH=$PATH:vendor/bin/Linux
       shell: bash
     
     - name: Generate Project Files
