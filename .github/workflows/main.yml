@@ -30,7 +30,7 @@ jobs:
 
     - name: Use Custom Premake Binary
       run: |
-            chmod +x Vendor/bin/Linux/premake5
+            chmod +x ./Vendor/bin/Linux/premake5
             export PATH=$PATH:Vendor/bin/Linux
       shell: bash
     
