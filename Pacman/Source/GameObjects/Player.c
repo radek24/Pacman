@@ -2,9 +2,9 @@
 #include "Core/Core.h"
 
 
-void InitPlayer(Player* player, SDL_Renderer* renderer, Vec2i* StartingPos, tileChangeCallback callback)
+void InitPlayer(Player* player, SDL_Renderer* renderer, Vec2i* StartingPos, PlayerCallbacks callbacks)
 {
-	if (callback != NULL) { player->callback = callback; }
+	if (callbacks.onTileChanged != NULL) { player->callbacks.onTileChanged = callbacks.onTileChanged; }
 	player->currentTile = (*StartingPos);
 	player->scale = 15;
 	player->currentTile = *StartingPos;
@@ -22,7 +22,8 @@ void InitPlayer(Player* player, SDL_Renderer* renderer, Vec2i* StartingPos, tile
 		PAC_ASSERT(0);
 	}
 	player->state = Alive;
-
+	Ini_File *file = ini_file_parse(SETTINGS_FILE_NAME, LogErrorCallback);
+	ini_file_find_integer(file, SETTINGS_SECTION_NAME, "StartingLives", &(player->lives));
 }
 void UpdatePlayer(Player* player, LevelManager* manager, float deltaTime, Maze* maze) {
 	
@@ -102,7 +103,7 @@ void UpdateCurrentTile(Player* player,LevelManager* manager)
 		player->currentTile.x = ((int)(player->position.x + (player->scale)) / (TILE_SIZE)) - 1;
 		player->currentTile.y = ((int)(player->position.y + (player->scale)) / (TILE_SIZE)) - 1;
 
-		player->callback(manager, &player->currentTile);
+		player->callbacks.onTileChanged(manager, &player->currentTile);
 	}
 }
 
@@ -144,7 +145,6 @@ void CheckPlayerCollision(Player* player, Maze* maze)
 		if (isMazeTileFilled(player->currentTile.x - 1, player->currentTile.y, maze)) {
 			player->currentSpeed = 0;
 			player->position.x = (player->currentTile.x + 1) * TILE_SIZE - TILE_SIZE/2 + 1;
-			PAC_LOG("test");
 		}
 	} break;
 	case Right: {

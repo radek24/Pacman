@@ -8,13 +8,7 @@ Settings system
 Limitations - Settins can be only edited from setting level
             - Settins manager "object" can be only acessesed in settign level
             - If anyone wants to acess settings from elsewhere there are some functions provided in core.h
-
 */
-
-
-#define SETTINGS_FILE_NAME "Resources/Config/Settings.ini"
-#define SETTINGS_SECTION_NAME "Settings"
-
 
 typedef void (*SettingPressedCallback)(LevelManager*, int);
 

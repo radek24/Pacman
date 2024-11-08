@@ -30,6 +30,7 @@ struct LevelManager {
     Vec2i watermarkLoc;
     SDL_Texture* watermark;
     float gameTime;
+    SDL_Rect renderViewport;
 };
 
 void InitLevelManager(LevelManager* manager, const char* fontPath, int size);

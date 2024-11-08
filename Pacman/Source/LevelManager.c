@@ -12,6 +12,7 @@ void InitLevelManager(LevelManager* manager, const char* fontPath, int size)
 	manager->watermarkLoc = (Vec2i){5,WINDOW_SIZE_Y-20 };
 	manager->watermark = IMG_LoadTexture(manager->renderer, "Resources/Sprites/Watermark.png");
 	manager->gameTime = 0.0f;
+	manager->renderViewport = (SDL_Rect){ 0,0,WINDOW_SIZE_X,WINDOW_SIZE_Y };
 }
 
 void LevelManager_SetNewLevel(LevelManager* manager, Level NewLevel)
@@ -28,7 +29,7 @@ void LevelManager_SetNewLevel(LevelManager* manager, Level NewLevel)
 	PAC_LOG("New level initialized sucesfully");
 }
 
-void LevelManager_Update(LevelManager* manager,float deltaTime)
+void LevelManager_Update(LevelManager* manager, float deltaTime)
 {
 	manager->gameTime += deltaTime;
 	manager->currentLevel.Update(deltaTime, manager);
@@ -37,8 +38,9 @@ void LevelManager_Update(LevelManager* manager,float deltaTime)
 void LevelManager_Render(LevelManager* manager, float deltaTime)
 {
 	SDL_RenderClear(manager->renderer);
-	manager->currentLevel.Render(deltaTime, manager);
+	//SDL_RenderSetViewport(manager->renderer, &(manager->renderViewport));
 
+	manager->currentLevel.Render(deltaTime, manager);
 	SDL_Rect dstrect = { manager->watermarkLoc.x, manager->watermarkLoc.y,181 ,17  };
 	SDL_RenderCopy(manager->renderer, manager->watermark, NULL, &dstrect);
 	SDL_RenderPresent(manager->renderer);

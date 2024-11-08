@@ -18,22 +18,24 @@
 #define LEADERBOARD_FILENAME "Resources/Config/Leaderboards.ini"
 #define LEADERBORDS_SECTION "Leaderboards"
 
+#define SETTINGS_FILE_NAME "Resources/Config/Settings.ini"
+#define SETTINGS_SECTION_NAME "Settings"
+
 #define CONSTRUCT_LEVEL(LevelName) { LevelName##_Init, LevelName##_Update, LevelName##_Render, LevelName##_Destroy }
 
 #define MENU_HEADER_LOCATION ((Vec2i){ TILE_SIZE*2, TILE_SIZE*2})
-
 
 #ifndef PLATFORM_WINDOWS
 #define min(a,b) ((a) < (b) ? (a) : (b))
 #endif
 
-
-
 #ifndef PLATFORM_WINDOWS
 #define max(a,b) ((a) > (b) ? (a) : (b))
 #endif
 
-int getSpriteIndexFromTime(float time, int sprites);
+typedef enum { Alive, Vunurable, Dead }EntityState;
 
+
+int getSpriteIndexFromTime(float time, int sprites);
 
 int LogErrorCallback(const char* const filename, size_t line_number, size_t column, char* line, Ini_File_Error error);

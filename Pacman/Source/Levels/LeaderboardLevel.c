@@ -98,8 +98,6 @@ void LeaderboardLevel_Update(float deltaTime, LevelManager* manager)
 	CheckReturnInput(manager);
 }
 
-
-
 void LeaderboardLevel_Render(float deltaTime, LevelManager* manager)
 {
 	PAC_ASSERT(manager && manager->data);

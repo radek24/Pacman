@@ -66,12 +66,12 @@ void MainMenuLevel_Update(float deltaTime, LevelManager* manager)
 	PAC_ASSERT(manager && manager->data);
 	MainMenuData* leveldata = ((MainMenuData*)manager->data);
 	
-	ButtonState tmp;
+	ButtonState lastButtonState;
 	for (short i = 0; i < NUM_BUTTONS; i++)
 	{
-		tmp = leveldata->mainMenuButtons[i].state;
+		lastButtonState = leveldata->mainMenuButtons[i].state;
 		UpdateButton(&(leveldata->mainMenuButtons[i]), manager);
-		if (tmp != leveldata->mainMenuButtons[i].state) break;
+		if (lastButtonState != leveldata->mainMenuButtons[i].state) break;
 	}
 }
 

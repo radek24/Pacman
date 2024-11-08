@@ -4,9 +4,17 @@
 #include "LevelManager.h"
 #include "GameObjects/Maze.h"
 
-typedef enum { Alive, Dead }PlayerState;
+
 
 typedef void (*tileChangeCallback)(LevelManager*, Vec2i*);
+typedef void (*livesChangedCallback)(LevelManager*, int);
+
+typedef struct {
+	tileChangeCallback onTileChanged;
+	livesChangedCallback onLivesChanged;
+}PlayerCallbacks;
+
+
 
 typedef struct {
 	Vec2f position;
@@ -18,13 +26,14 @@ typedef struct {
 	Orientation orientation;
 	float speed;
 	float currentSpeed;
-	PlayerState state;
+	EntityState state;
 	SDL_Texture* SpriteSheet;
-	tileChangeCallback callback;
+	PlayerCallbacks callbacks;
+	int lives;
 
 }Player;
 
-void InitPlayer(Player* player,SDL_Renderer* renderer,Vec2i *StartingPos, tileChangeCallback callback);
+void InitPlayer(Player* player,SDL_Renderer* renderer,Vec2i *StartingPos, PlayerCallbacks callbacks);
 void UpdatePlayer(Player* player, LevelManager* manager, float deltaTime,Maze *maze);
 void DelayedUpdatePlayerInput(Player* player, Maze* maze);
 int IsPlayerPerfectlyOnTile(Player* player);

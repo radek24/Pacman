@@ -11,6 +11,16 @@
 int main()
 {
     
+    /* Target API:
+    * 
+    LevelManager manager;
+    InitGame(&manager);
+    while (IsGameRunning(&manager)) {
+        UpdateGame(&manager);
+    }
+    DestroyGame(&manager);
+    */
+    
     GraphicsState graphicsState = {
     .windowTransform = { {SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED}, {WINDOW_SIZE_X, WINDOW_SIZE_Y} },
     .window = NULL,
@@ -21,8 +31,7 @@ int main()
     LevelManager manager = {
         .currentLevel= NULL,
         .data=NULL,
-        .renderer=graphicsState
-        .renderer ,
+        .renderer=graphicsState.renderer,
         .inputEvent=0,
         .isInputActive =0
     };
