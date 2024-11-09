@@ -39,8 +39,9 @@ void SDLWrapper_Init(const char* windowName, GraphicsState* state)
 }
 
 void SDLWrapper_Destroy(GraphicsState* state) {
+    PAC_LOG("Destroying SDL...");
     SDL_DestroyRenderer(state->renderer);
     SDL_DestroyWindow(state->window);
     SDL_Quit();
-    PAC_LOG("Sucesfully destroyed SDL");
+    PAC_LOG("Destroyed SDL");
 }

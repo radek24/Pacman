@@ -33,7 +33,9 @@ struct LevelManager {
     SDL_Rect renderViewport;
 };
 
-void InitLevelManager(LevelManager* manager, const char* fontPath, int size);
+void PrintCurrentConfiguration();
+int IsGameRunning(LevelManager* manager);
+void InitLevelManager(LevelManager* manager);
 void LevelManager_SetNewLevel(LevelManager* manager, Level NewLevel);
 void LevelManager_Update(LevelManager* manager, float deltaTime);
 void LevelManager_Render(LevelManager* manager, float deltaTime);

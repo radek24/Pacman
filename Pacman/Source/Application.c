@@ -1,4 +1,3 @@
-
 #include <stdlib.h>
 #include "SDL_Wrapper.h"
 #include "Core/Core.h"
@@ -10,9 +9,7 @@
 
 int main()
 {
-    
     /* Target API:
-    * 
     LevelManager manager;
     InitGame(&manager);
     while (IsGameRunning(&manager)) {
@@ -20,6 +17,8 @@ int main()
     }
     DestroyGame(&manager);
     */
+
+    PrintCurrentConfiguration();
     
     GraphicsState graphicsState = {
     .windowTransform = { {SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED}, {WINDOW_SIZE_X, WINDOW_SIZE_Y} },
@@ -36,14 +35,14 @@ int main()
         .isInputActive =0
     };
 
-    InitLevelManager(&manager, "Resources/Fonts/PacFont.ttf", 16);
+    InitLevelManager(&manager);
     
     Level mainMenu = CONSTRUCT_LEVEL(MainMenuLevel);
     LevelManager_SetNewLevel(&manager, mainMenu);
 
     Uint32 lastTick = SDL_GetTicks();
     float deltaTime = 0.0f;
-    while (manager.state == Playing)
+    while (IsGameRunning(&manager))
     {
         Uint32 currentTick = SDL_GetTicks();
         deltaTime = (currentTick - lastTick) / 1000.0f;
@@ -56,9 +55,9 @@ int main()
         
         lastTick = currentTick;
     }
+    PAC_LOG("Requested quit, destroying game...")
     LevelManager_Destroy(&manager);
     LevelManager_Cleanup(&manager);
     SDLWrapper_Destroy(&graphicsState);
-   
     return 0;
 }

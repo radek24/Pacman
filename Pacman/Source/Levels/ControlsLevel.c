@@ -40,7 +40,7 @@ void ControlsLevel_Destroy(LevelManager* manager)
 	PAC_ASSERT(manager && manager->data);
 	ControlsData* leveldata = ((ControlsData*)manager->data);
 	DestroyText(&(leveldata->controlsTitle));
-	SDL_DestroyTexture(&(leveldata->levelScreen));
+	SDL_DestroyTexture(leveldata->levelScreen);
 	free(manager->data);
 	manager->data = NULL;
 }

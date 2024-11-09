@@ -43,6 +43,9 @@ project "Pacman"
         "{COPY} ../Pacman/Resources %{cfg.buildtarget.directory}/Resources"
     }
 
+    --User configuration, change this as you need
+    defines {"LOG_USE_COLOR","LOG_IN_SHIPPING"}
+    
     --OS Specific stuff
 
     filter "system:macosx"

@@ -2,7 +2,8 @@
 #include <SDL2/SDL_log.h>
 #include "log/rxi_log.h"
 
-#ifndef PAC_SHIPING
+
+#if !defined(PAC_SHIPING) || defined(LOG_IN_SHIPPING)
 
 #define PAC_FATAL(...)		log_fatal( __VA_ARGS__);
 #define PAC_ERROR(...)		log_error( __VA_ARGS__)

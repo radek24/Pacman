@@ -40,7 +40,7 @@ void CreditsLevel_Destroy(LevelManager *manager)
 	PAC_ASSERT(manager && manager->data);
 	CreditsData *leveldata = ((CreditsData *)manager->data);
 	DestroyText(&(leveldata->creditsTitle));
-	SDL_DestroyTexture(&(leveldata->levelScreen));
+	SDL_DestroyTexture(leveldata->levelScreen);
 	free(manager->data);
 	manager->data = NULL;
 }
