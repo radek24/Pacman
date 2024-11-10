@@ -1,5 +1,6 @@
 #include "LevelManager.h"
 #include "Levels/MainMenuLevel.h"
+#include "Levels/GameLevel.h"
 
 void PrintCurrentConfiguration()
 {
@@ -7,7 +8,7 @@ void PrintCurrentConfiguration()
 	PAC_LOG("Starting in debug configuration")
 #elif PAC_DEVELOPMENT
 	PAC_LOG("Starting in development configuration")
-#elif PAC_SHIPPING
+#elif PAC_SHIPING
 	PAC_LOG("Starting in shipping configuration")
 #endif
 

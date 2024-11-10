@@ -15,10 +15,22 @@ void InitGhost(Ghost* ghost, Vec2i StartingPos, GhostType type, LevelManager* ma
 
 	switch (ghost->type)
 	{
-	case Blinky: { ghost->spriteSheet = IMG_LoadTexture(manager->renderer, "Resources/Sprites/Blinky.png"); }break;
-	case Pinky: { ghost->spriteSheet = IMG_LoadTexture(manager->renderer, "Resources/Sprites/Pinky.png"); }break;
-	case Inky: { ghost->spriteSheet = IMG_LoadTexture(manager->renderer, "Resources/Sprites/Inky.png"); }break;
-	case Clyde: { ghost->spriteSheet = IMG_LoadTexture(manager->renderer, "Resources/Sprites/Clyde.png"); }break;
+	case Blinky: { 
+		ghost->spriteSheet = IMG_LoadTexture(manager->renderer, "Resources/Sprites/Blinky.png"); 
+		ghost->speed = 70.0f;
+	}break;
+	case Pinky: { 
+		ghost->spriteSheet = IMG_LoadTexture(manager->renderer, "Resources/Sprites/Pinky.png"); 
+		ghost->speed = 70.0f;
+	}break;
+	case Inky: { 
+		ghost->spriteSheet = IMG_LoadTexture(manager->renderer, "Resources/Sprites/Inky.png"); 
+		ghost->speed = 70.0f;
+	}break;
+	case Clyde: {
+		ghost->spriteSheet = IMG_LoadTexture(manager->renderer, "Resources/Sprites/Clyde.png"); 
+		ghost->speed = 70.0f;
+	}break;
 	default: { PAC_CHECKNOENTRY(); }break;
 	}
 	PAC_ASSERT(ghost->spriteSheet);
@@ -26,6 +38,10 @@ void InitGhost(Ghost* ghost, Vec2i StartingPos, GhostType type, LevelManager* ma
 
 void UpdateGhost(Ghost* ghost, LevelManager* manager)
 {
+
+
+
+
 }
 
 void RenderGhost(Ghost* ghost, LevelManager* manager)

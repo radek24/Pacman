@@ -37,7 +37,7 @@ int main()
 
     InitLevelManager(&manager);
     
-    Level mainMenu = CONSTRUCT_LEVEL(MainMenuLevel);
+    Level mainMenu = CONSTRUCT_LEVEL(GameLevel);
     LevelManager_SetNewLevel(&manager, mainMenu);
 
     Uint32 lastTick = SDL_GetTicks();

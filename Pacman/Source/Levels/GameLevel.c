@@ -62,7 +62,7 @@ void GameLevel_Init(LevelManager* manager)
 	InitPlayer(&(leveldata->player), manager->renderer, &playerStart, callbacks);
 	InitText(&(leveldata->scoreText), (SDL_Color) { 255, 255, 255, 255 }, "Score: 0", (Vec2i) { TILE_SIZE, TILE_SIZE* (MAZE_DIMENSIONS_Y + 1)}, manager);
 	InitLivesDisplay(&(leveldata->display), leveldata->player.lives, (Vec2i) { 27, 32 }, manager->renderer);
-	InitGhost(&(leveldata->ghosts[0]), (Vec2i) {1 , 2 }, Blinky,manager);
+	InitGhost(&(leveldata->ghosts[0]), (Vec2i) {1 , 2 }, Clyde,manager);
 
 	leveldata->score = 0;
 }
