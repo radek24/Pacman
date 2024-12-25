@@ -6,15 +6,15 @@ void InitPlayer(Player* player, SDL_Renderer* renderer, Vec2i* StartingPos, Play
 {
 	if (callbacks.onTileChanged != NULL) { player->callbacks.onTileChanged = callbacks.onTileChanged; }
 	player->currentTile = (*StartingPos);
-	player->scale = 15;
+	player->scale = 16;
 	player->currentTile = *StartingPos;
 	player->lastTile = *StartingPos;
 	player->position.x = (float)StartingPos->x*TILE_SIZE;
-	player->position.y = (float)StartingPos->y*TILE_SIZE+9;
+	player->position.y = (float)StartingPos->y*TILE_SIZE+8;
 	player->lastPosition = player->position;
-	player->desiredOrientation = Left;
-	player->orientation = Left;
-	player->speed = 10.0f;
+	player->desiredOrientation = Right;
+	player->orientation = Right;
+	player->speed = 80.0f;
 	player->currentSpeed = player->speed;
 	player->SpriteSheet = IMG_LoadTexture(renderer, "Resources/Sprites/Pacman.png");
 	if (player->SpriteSheet == NULL) {
