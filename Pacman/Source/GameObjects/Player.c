@@ -2,19 +2,16 @@
 #include "Core/Core.h"
 
 
-void InitPlayer(Player* player, SDL_Renderer* renderer, Vec2i* StartingPos, PlayerCallbacks callbacks)
+void InitPlayer(Player* player,int lives, SDL_Renderer* renderer, Vec2i* StartingPos, PlayerCallbacks callbacks)
 {
 	if (callbacks.onTileChanged != NULL) { player->callbacks.onTileChanged = callbacks.onTileChanged; }
+	player->currentIndex = 0;
+	player->lastIndex = 0;
 	player->currentTile = (*StartingPos);
 	player->scale = 16;
-	player->currentTile = *StartingPos;
-	player->lastTile = *StartingPos;
-	player->position.x = (float)StartingPos->x*TILE_SIZE;
-	player->position.y = (float)StartingPos->y*TILE_SIZE+8;
-	player->lastPosition = player->position;
 	player->desiredOrientation = Right;
 	player->orientation = Right;
-	player->speed = 80.0f;
+	player->speed = 5.0f;
 	player->currentSpeed = player->speed;
 	player->SpriteSheet = IMG_LoadTexture(renderer, "Resources/Sprites/Pacman.png");
 	if (player->SpriteSheet == NULL) {
@@ -22,12 +19,14 @@ void InitPlayer(Player* player, SDL_Renderer* renderer, Vec2i* StartingPos, Play
 		PAC_ASSERT(0);
 	}
 	player->state = Alive;
-	Ini_File *file = ini_file_parse(SETTINGS_FILE_NAME, LogErrorCallback);
-	ini_file_find_integer(file, SETTINGS_SECTION_NAME, "StartingLives", &(player->lives));
+	player->lives = lives;
 }
+
 void UpdatePlayer(Player* player, LevelManager* manager, float deltaTime, Maze* maze) {
+	int callCallback = 0;
+	player->currentIndex = ((int)(manager->gameTime * player->currentSpeed));
+	callCallback = UpdatePlayerLocation(player, manager, deltaTime);
 	
-	UpdatePlayerLocation(player, deltaTime);
 
 	SDL_Event event = manager->inputEvent;
 	if (manager->isInputActive && event.type == SDL_KEYDOWN) {
@@ -36,18 +35,17 @@ void UpdatePlayer(Player* player, LevelManager* manager, float deltaTime, Maze* 
 		if (event.key.keysym.sym == SDLK_LEFT) player->desiredOrientation = Left;
 		if (event.key.keysym.sym == SDLK_RIGHT) player->desiredOrientation = Right;
 	}
-	PlayerImidiateInput(player, maze);
+
+	PlayerImidiateInput(player,maze);
+	CheckPlayerCollision(player, maze);
+	DelayedUpdatePlayerInput(player, maze);
 	
-	if (IsPlayerPerfectlyOnTile(player)) {
-		UpdateCurrentTile(player,manager);
-		CheckPlayerCollision(player, maze);
-		DelayedUpdatePlayerInput(player, maze);
+	// Due to reasons
+	if (callCallback) 
+	{
+		player->callbacks.onTileChanged(manager, &player->currentTile);
+		callCallback = 0;
 	}
-
-	if (deltaTime * player->currentSpeed > 1.0) PAC_WARN("Player is skipping pixels, this is very bad. Moved by %f", deltaTime * player->currentSpeed);
-
-	player->lastPosition = player->position;
-	SDL_Delay(300);
 }
 
 /*This function moves player only when its possible to turn, so the control seems more responsive*/
@@ -85,25 +83,6 @@ void DelayedUpdatePlayerInput(Player* player, Maze* maze)
 	
 }
 
-/*Check if player is pixel perfect on tile, this functin will be problematic if player moves by more than 2 pixel at once, but idk solution to this.*/
-int IsPlayerPerfectlyOnTile(Player* player)
-{
-	//return (int)(player->lastPosition.x / TILE_SIZE) != (int)(player->position.x / TILE_SIZE);
-	return ((int)player->position.x) % (TILE_SIZE) == (TILE_SIZE / 2) + 1 && ((int)player->position.y) % (TILE_SIZE) == (TILE_SIZE / 2) + 1;
-}
-
-/*Sets current tile and last visited tile based on player location*/
-void UpdateCurrentTile(Player* player,LevelManager* manager)
-{
-	if (player->currentTile.x != ((int)(player->position.x + (player->scale)) / (TILE_SIZE)) - 1 || player->currentTile.y != ((int)(player->position.y + (player->scale)) / (TILE_SIZE)) - 1) {
-		player->lastTile = player->currentTile;
-		player->currentTile.x = ((int)(player->position.x + (player->scale)) / (TILE_SIZE)) - 1;
-		player->currentTile.y = ((int)(player->position.y + (player->scale)) / (TILE_SIZE)) - 1;
-
-		player->callbacks.onTileChanged(manager, &player->currentTile);
-	}
-}
-
 /*This function moves player only if there are no obstacles in the way and only if current orientation is opposite. For precise turns check "DelayedUpdatePlayerInput" */
 void PlayerImidiateInput(Player* player, Maze* maze)
 {
@@ -133,6 +112,9 @@ void PlayerImidiateInput(Player* player, Maze* maze)
 	}
 }
 
+
+
+
 /*Check player colision based on current tile*/
 void CheckPlayerCollision(Player* player, Maze* maze)
 {
@@ -140,7 +122,6 @@ void CheckPlayerCollision(Player* player, Maze* maze)
 	case Left: {
 		if (isMazeTileFilled(player->currentTile.x - 1, player->currentTile.y, maze)) {
 			player->currentSpeed = 0;
-			player->position.x = (player->currentTile.x + 1) * TILE_SIZE - TILE_SIZE/2 + 1;
 		}
 	} break;
 	case Right: {
@@ -160,42 +141,32 @@ void CheckPlayerCollision(Player* player, Maze* maze)
 	} break;
 	default: PAC_CHECKNOENTRY(); break;
 	}
+	
 }
 
-void UpdatePlayerLocation(Player* player, float deltaTime)
+int UpdatePlayerLocation(Player* player, LevelManager* manager, float deltaTime)
 {
-	switch (player->orientation)
+	if (player->currentIndex != player->lastIndex && player->currentSpeed != 0.0)
 	{
-	case Left:	player->position.x += deltaTime * player->currentSpeed * -1;	break;
-	case Right:	player->position.x += deltaTime * player->currentSpeed;	break;
-	case Up:	player->position.y += deltaTime * player->currentSpeed * -1;	break;
-	case Down:	player->position.y += deltaTime * player->currentSpeed;	break;
-
-	default:PAC_CHECKNOENTRY(); break;
+		switch (player->orientation)
+		{
+		case Left:	player->currentTile.x--; break;
+		case Right:	player->currentTile.x++; break;
+		case Up:	player->currentTile.y--; break;
+		case Down:	player->currentTile.y++; break;
+		default:PAC_CHECKNOENTRY(); break;
+		}
+		player->lastIndex = player->currentIndex;
+		return 1;
 	}
+	return 0;
 }
 
 void RenderPlayer(Player* player, float currentTime, SDL_Renderer* renderer)
 {
-	SDL_Rect position = { (int)player->position.x,(int)player->position.y,player->scale*2,player->scale*2 };
+	SDL_Rect position = { (((int)player->currentTile.x + 1) * TILE_SIZE) - (TILE_SIZE/2),((int)player->currentTile.y + 1) * TILE_SIZE - (TILE_SIZE / 2),player->scale * 2,player->scale * 2};
 	SDL_Rect tile = { player->scale* getSpriteIndexFromTime(currentTime,2) ,player->orientation * player->scale ,player->scale,player->scale};
 	SDL_RenderCopy(renderer, player->SpriteSheet, &tile, &position);
-
-#if !defined(PAC_SHIPPING) 
-	SDL_Rect currentTile = { (TILE_SIZE ) * (player->currentTile.x+1)  ,(TILE_SIZE ) * (player->currentTile.y+1),TILE_SIZE,TILE_SIZE };
-	SDL_Rect playerPos = { (int)player->position.x  ,(int)player->position.y,1,1 };
-	SDL_Rect playerPosCenter = { (int)player->position.x+player->scale  ,(int)player->position.y + player->scale,2,2 };
-	SDL_Rect playerColision = { (int)player->position.x  ,(int)player->position.y,player->scale * 2,player->scale * 2 };
-	SDL_SetRenderDrawColor(renderer, 255, 0, 0, 100);
-	SDL_RenderFillRect(renderer, &playerColision);
-	
-	SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
-	SDL_RenderFillRect(renderer, &playerPos);
-	SDL_SetRenderDrawColor(renderer, 0, 0, 255, 100);
-	SDL_RenderFillRect(renderer, &playerPosCenter);
-	SDL_RenderFillRect(renderer, &currentTile);
-	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-#endif
 }
 
 void DestroyPlayer(Player* player)

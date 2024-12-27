@@ -50,6 +50,8 @@ static void LoadFont(LevelManager* manager, const char* fontPath, int size)
 void InitLevelManager(LevelManager* manager)
 {
 	LoadFont(manager, "Resources/Fonts/PacFont.ttf", 16);
+	manager->currentLives = 0;
+	manager->currentScore = 0;
 	manager->state = Playing;
 	manager->watermarkLoc = (Vec2i){5,WINDOW_SIZE_Y-20 };
 	manager->watermark = IMG_LoadTexture(manager->renderer, "Resources/Sprites/Watermark.png");

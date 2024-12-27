@@ -17,8 +17,8 @@ typedef struct {
 
 
 typedef struct {
-	Vec2f position;
-	Vec2f lastPosition;
+	int currentIndex;
+	int lastIndex;
 	Vec2i lastTile;
 	Vec2i currentTile;
 	int scale;
@@ -30,16 +30,13 @@ typedef struct {
 	SDL_Texture* SpriteSheet;
 	PlayerCallbacks callbacks;
 	int lives;
-
 }Player;
 
-void InitPlayer(Player* player,SDL_Renderer* renderer,Vec2i *StartingPos, PlayerCallbacks callbacks);
+void InitPlayer(Player* player,  int lives,SDL_Renderer* renderer,Vec2i *StartingPos, PlayerCallbacks callbacks);
 void UpdatePlayer(Player* player, LevelManager* manager, float deltaTime,Maze *maze);
 void DelayedUpdatePlayerInput(Player* player, Maze* maze);
-int IsPlayerPerfectlyOnTile(Player* player);
-void UpdateCurrentTile(Player* player, LevelManager* manager);
 void PlayerImidiateInput(Player* player, Maze* maze);
 void CheckPlayerCollision(Player* player, Maze* maze);
-void UpdatePlayerLocation(Player* player, float deltaTime);
+int UpdatePlayerLocation(Player* player, LevelManager* manager, float deltaTime);
 void RenderPlayer(Player* player,float currentTime, SDL_Renderer* renderer);
 void DestroyPlayer(Player* player);

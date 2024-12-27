@@ -1,20 +1,15 @@
 #include "LivesDisplay.h"
 
-void InitLivesDisplay(LivesDisplay* display, int lives, Vec2i pos, SDL_Renderer* renderer)
+
+void InitLivesDisplay(LivesDisplay* display, Vec2i pos, SDL_Renderer* renderer)
 {
 	display->sprite = IMG_LoadTexture(renderer, "Resources/Sprites/Pacman.png");
 	display->pos = pos;
-	display->currentLives = lives;
 }
 
-void UpdateLivesDisplay(LivesDisplay* display, int lives)
+void RenderLivesDisplay(LivesDisplay* display, SDL_Renderer* renderer, Player* player)
 {
-	display->currentLives = lives;
-}
-
-void RenderLivesDisplay(LivesDisplay* display, SDL_Renderer* renderer)
-{
-	for (int i = 0; i < display->currentLives; i++)
+	for (int i = 0; i < player->lives; i++)
 	{
 		SDL_Rect position = { TILE_SIZE * display->pos.x - ((TILE_SIZE * 2) * i) ,TILE_SIZE * display->pos.y,15 * 2,15 * 2};
 		SDL_Rect tile = { 15,15,15,15 };

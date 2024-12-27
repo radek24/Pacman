@@ -18,6 +18,7 @@ typedef struct {
     functionPointer destroy;
 } Level;
 
+// Game instance object containing all variables needed through out the game
 struct LevelManager {  
     Level currentLevel;
     void* data;
@@ -31,6 +32,8 @@ struct LevelManager {
     SDL_Texture* watermark;
     float gameTime;
     SDL_Rect renderViewport;
+    int currentScore;
+    int currentLives;
 };
 
 void PrintCurrentConfiguration();

@@ -22,3 +22,5 @@ typedef struct {
 }Rect2Di;
 
 typedef enum{Right,Left,Up,Down}Orientation;
+
+int Vec2iEqual(Vec2i* a, Vec2i* b);

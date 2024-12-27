@@ -8,7 +8,7 @@ A modern implementation of the classic Pacman game, developed as part of the Int
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/pacman.git
+   gh repo clone radek24/Pacman
    cd pacman
    ```
 
@@ -16,6 +16,7 @@ A modern implementation of the classic Pacman game, developed as part of the Int
    - Run `GenerateProjectFiles.bat`
    - Select your preferred IDE when prompted
    - Open the generated project files in your chosen IDE
+   - If you have any problems with building on linux look into CI/CD workflow
 
 ### Manual Setup
 
@@ -38,14 +39,17 @@ The project supports three build configurations:
 | Development  | Optimized build with logging for testing             | PAC_DEVELOPMENT|
 | Shipping     | Fully optimized release build without logging        | PAC_SHIPPING    |
 
+## CI / CD workflow
+This project supports simple CI/CD workflow to check if projects compiles on linux (because noone will ever force me to use linux). You can look into `.github/workflows/main.yml` to check how it works.
+
 ## Development Environment
 
-### Supported IDEs
-- **Visual Studio 2022** (Primary development IDE)
+### Supported Project files
+- **Visual Studio 2024** (Primary development IDE)
 - **GNU Make** (gmake)
 
 ### Platform Support
-While the project aims to be cross-platform, Windows is the primary development and testing platform. Other platforms may not have feature parity.
+While the project aims to be cross-platform, Windows is the primary development and testing platform. Other platforms may not have feature parity or could be broken idk.
 
 ## Dependencies
 

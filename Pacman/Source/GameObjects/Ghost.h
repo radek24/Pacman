@@ -7,12 +7,14 @@
 typedef enum { Blinky, Pinky, Inky, Clyde} GhostType;
 
 typedef struct {
-	Vec2f position;
+	int currentIndex;
+	int lastIndex;
 	Vec2i currentTile;
 	int scale;
 	Orientation orientation;
 	float speed;
 	float currentSpeed;
+	float timeWhenDied;
 	EntityState state;
 	GhostType type;
 	SDL_Texture* spriteSheet;
@@ -23,6 +25,6 @@ typedef struct {
 }Ghost;
 
 void InitGhost(Ghost* ghost, Vec2i StartingPos, GhostType type, LevelManager* manager);
-void UpdateGhost(Ghost* ghost,LevelManager* manager);
+void UpdateGhost(Ghost* ghost,LevelManager* manager,float deltaTime, Maze* maze);
 void RenderGhost(Ghost* ghost,LevelManager* manager);
 void DestroyGhost(Ghost* ghost);

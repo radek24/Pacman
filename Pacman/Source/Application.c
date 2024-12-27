@@ -9,15 +9,6 @@
 
 int main()
 {
-    /* Target API:
-    LevelManager manager;
-    InitGame(&manager);
-    while (IsGameRunning(&manager)) {
-        UpdateGame(&manager);
-    }
-    DestroyGame(&manager);
-    */
-
     PrintCurrentConfiguration();
     
     GraphicsState graphicsState = {
@@ -37,7 +28,7 @@ int main()
 
     InitLevelManager(&manager);
     
-    Level mainMenu = CONSTRUCT_LEVEL(GameLevel);
+    Level mainMenu = CONSTRUCT_LEVEL(MainMenuLevel);
     LevelManager_SetNewLevel(&manager, mainMenu);
 
     Uint32 lastTick = SDL_GetTicks();
