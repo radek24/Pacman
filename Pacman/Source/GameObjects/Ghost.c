@@ -90,14 +90,11 @@ void UpdateGhost(Ghost* ghost, LevelManager* manager,float deltaTime, Maze* maze
 	callCallback = UpdateGhostLocation(ghost, manager, deltaTime);
 	CheckForCollisions(ghost, maze);
 
-	if (ghost->state == Dead && (manager->gameTime >  ghost->timeWhenDied + 5))
+	if (ghost->state == Dead && (manager->gameTime > ghost->timeWhenDied + 10))
 	{
 		ghost->state = Alive;
 		ghost->currentTile = (Vec2i){ 15,12 };
 	}
-
-
-
 }
 
 void RenderGhost(Ghost* ghost, LevelManager* manager)

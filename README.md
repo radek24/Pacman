@@ -1,3 +1,9 @@
+# Poznámka pro cvičícího
+
+Dobrý den Pane Dohnálku, protože má kelvin limit na upload 1mb tak jsem musel z repozitáře smazat některé binárky a soubory potřebné pro úspěšný build.
+
+Jestli budete projekt buildit prosím stáhněte verzi z [Mého google disku](https://drive.google.com/file/d/1TUuUoY4IhMGcM5xlD6putEVkTzLVSquy/view?usp=sharing). (Poslal bych github ale ten mám soukromý ať to nějaký špinavec neukradne).
+
 # Pacman
 
 A modern implementation of the classic Pacman game, developed as part of the Introduction to Programming (UPR) course at VŠB-TUO (Technical University of Ostrava).
@@ -28,6 +34,18 @@ For unsoported project files or if you prefer manual configuration:
    premake5 [action]
    ```
    For available actions, consult the [Premake documentation](https://premake.github.io/docs/).
+
+## Game Features
+- Basic movement
+- Full gameloop
+- Ghost that kills player
+- Main menu
+- Settings
+
+## Controls
+- Use arrows to navigate in main menu
+- Enter to Select
+- Arrows to control player
 
 ## Build Configurations
 
