@@ -2,7 +2,7 @@
 
 Dobrý den Pane Dohnálku, protože má kelvin limit na upload 1mb tak jsem musel z repozitáře smazat některé binárky a soubory potřebné pro úspěšný build.
 
-Jestli budete projekt buildit prosím stáhněte verzi z [Mého google disku](https://drive.google.com/file/d/1TUuUoY4IhMGcM5xlD6putEVkTzLVSquy/view?usp=sharing). (Poslal bych github ale ten mám soukromý ať to nějaký špinavec neukradne).
+Jestli budete projekt buildit prosím stáhněte verzi z [Mého githubu](https://github.com/radek24/Pacman).
 
 # Pacman
 
