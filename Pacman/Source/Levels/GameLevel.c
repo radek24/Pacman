@@ -37,6 +37,7 @@ static void addScore(GameLevelData* data, LevelManager* manager,int amount)
 
 void OnPlayerTileUpdate(LevelManager* manager, Vec2i *pos) {
 	PAC_ASSERT(manager && manager->data);
+	
 	GameLevelData* leveldata = ((GameLevelData*)manager->data);
 	for (int i = 0; i < leveldata->pickups.size; i++)
 	{
@@ -66,6 +67,7 @@ void OnPlayerTileUpdate(LevelManager* manager, Vec2i *pos) {
 		Level WinLevel = CONSTRUCT_LEVEL(WinLevel);
 		LevelManager_SetNewLevel(manager, WinLevel);
 	}
+	
 }
 void OnPlayerLivesChanged(LevelManager* manager, int lives) {
 
@@ -80,7 +82,6 @@ void GameLevel_Init(LevelManager* manager)
 	InitPickups(&(leveldata->pickups), manager->renderer);
 	InitMaze("Resources/Levels/level1.txt", &(leveldata->maze), &(leveldata->pickups), manager->renderer);
 	Vec2i playerStart = { 14,23 };
-	PlayerCallbacks callbacks = { OnPlayerTileUpdate ,OnPlayerLivesChanged };
 
 	int lives;
 	if (manager->currentLives == 0) {
@@ -93,7 +94,7 @@ void GameLevel_Init(LevelManager* manager)
 	}
 
 
-	InitPlayer(&(leveldata->player),lives, manager->renderer, &playerStart, callbacks);
+	InitPlayer(&(leveldata->player),lives, manager->renderer, &playerStart, OnPlayerTileUpdate);
 
 	char scoreString[50];
 	sprintf(scoreString, "Score: %d", manager->currentScore);
@@ -114,6 +115,7 @@ void CheckVunurabilityState(GameLevelData* leveldata, LevelManager* manager);
 void GameLevel_Update(float deltaTime, LevelManager* manager)
 {
 	PAC_ASSERT(manager && manager->data);
+	
 	GameLevelData* leveldata = ((GameLevelData*)manager->data);
 		
 	for (int i = 0; i < 4; i++)
@@ -122,7 +124,7 @@ void GameLevel_Update(float deltaTime, LevelManager* manager)
 	}
 	
 	CheckVunurabilityState(leveldata, manager);
-
+	
 
 	for (int i = 0; i < 4; i++)
 	{
@@ -154,9 +156,6 @@ void GameLevel_Update(float deltaTime, LevelManager* manager)
 			}
 		}
 	}
-
-
-
 
 	//Needs to be last entity to update, because this guy will call destroy level, so nothing can be after this. I know, very good design.
 	UpdatePlayer(&(leveldata->player), manager, deltaTime, &(leveldata->maze));

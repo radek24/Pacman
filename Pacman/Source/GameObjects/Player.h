@@ -14,8 +14,6 @@ typedef struct {
 	livesChangedCallback onLivesChanged;
 }PlayerCallbacks;
 
-
-
 typedef struct {
 	int currentIndex;
 	int lastIndex;
@@ -32,7 +30,7 @@ typedef struct {
 	int lives;
 }Player;
 
-void InitPlayer(Player* player,  int lives,SDL_Renderer* renderer,Vec2i *StartingPos, PlayerCallbacks callbacks);
+void InitPlayer(Player* player,  int lives,SDL_Renderer* renderer,Vec2i *StartingPos, tileChangeCallback callback);
 void UpdatePlayer(Player* player, LevelManager* manager, float deltaTime,Maze *maze);
 void DelayedUpdatePlayerInput(Player* player, Maze* maze);
 void PlayerImidiateInput(Player* player, Maze* maze);

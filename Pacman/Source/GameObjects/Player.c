@@ -2,12 +2,13 @@
 #include "Core/Core.h"
 
 
-void InitPlayer(Player* player,int lives, SDL_Renderer* renderer, Vec2i* StartingPos, PlayerCallbacks callbacks)
+void InitPlayer(Player* player,int lives, SDL_Renderer* renderer, Vec2i* StartingPos, tileChangeCallback callback)
 {
-	if (callbacks.onTileChanged != NULL) { player->callbacks.onTileChanged = callbacks.onTileChanged; }
+	player->callbacks.onTileChanged = callback;
 	player->currentIndex = 0;
 	player->lastIndex = 0;
-	player->currentTile = (*StartingPos);
+	player->currentTile = (Vec2i){14,23};
+
 	player->scale = 16;
 	player->desiredOrientation = Right;
 	player->orientation = Right;
@@ -23,11 +24,11 @@ void InitPlayer(Player* player,int lives, SDL_Renderer* renderer, Vec2i* Startin
 }
 
 void UpdatePlayer(Player* player, LevelManager* manager, float deltaTime, Maze* maze) {
+	
 	int callCallback = 0;
 	player->currentIndex = ((int)(manager->gameTime * player->currentSpeed));
 	callCallback = UpdatePlayerLocation(player, manager, deltaTime);
 	
-
 	SDL_Event event = manager->inputEvent;
 	if (manager->isInputActive && event.type == SDL_KEYDOWN) {
 		if (event.key.keysym.sym == SDLK_UP) player->desiredOrientation = Up;
@@ -39,13 +40,14 @@ void UpdatePlayer(Player* player, LevelManager* manager, float deltaTime, Maze* 
 	PlayerImidiateInput(player,maze);
 	CheckPlayerCollision(player, maze);
 	DelayedUpdatePlayerInput(player, maze);
-	
+
 	// Due to reasons
 	if (callCallback) 
 	{
 		player->callbacks.onTileChanged(manager, &player->currentTile);
 		callCallback = 0;
 	}
+	
 }
 
 /*This function moves player only when its possible to turn, so the control seems more responsive*/
